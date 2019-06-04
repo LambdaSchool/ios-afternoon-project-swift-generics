@@ -43,6 +43,15 @@ struct CountedSet<Element: Hashable> {
 		}
 	}
 
+	func isDisjoint(_ otherSet: CountedSet<Element>) -> Bool {
+		for item in otherSet {
+			if self[item.member] == item.count {
+				return false
+			}
+		}
+		return true
+	}
+
 	// MARK: - subtraction
 	/// returns a CountedSet that is the result of subtracting a new set from the original
 	func subtraction(of newSet: CountedSet<Element>) -> CountedSet<Element> {
@@ -250,3 +259,41 @@ func testSubtraction() {
 	bCountedSet
 }
 testSubtraction()
+
+// MARK: - disjoint tests
+func testDisjoint() {
+	var aCountedSet = CountedSet<Arrow>()
+	for _ in 1...5 {
+		aCountedSet.insert(.dwarvish)
+	}
+	for _ in 1...2 {
+		aCountedSet.insert(.elven)
+	}
+	for _ in 1...1 {
+		aCountedSet.insert(.iron)
+	}
+
+	var bCountedSet = CountedSet<Arrow>()
+	for _ in 1...4 {
+		bCountedSet.insert(.dwarvish)
+	}
+	for _ in 1...2 {
+		bCountedSet.insert(.elven)
+	}
+
+	var cCountedSet = CountedSet<Arrow>()
+	cCountedSet = [.wooden, .wooden]
+
+	aCountedSet.isDisjoint(bCountedSet)
+	aCountedSet
+	bCountedSet
+
+	aCountedSet.isDisjoint(cCountedSet)
+	aCountedSet
+	cCountedSet
+
+	bCountedSet.isDisjoint(cCountedSet)
+	bCountedSet
+	cCountedSet
+}
+testDisjoint()
