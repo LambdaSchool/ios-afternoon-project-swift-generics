@@ -43,6 +43,21 @@ struct CountedSet<Element: Hashable> {
 		}
 	}
 
+	// MARK: - subtraction
+	/// returns a CountedSet that is the result of subtracting a new set from the original
+	func subtraction(of newSet: CountedSet<Element>) -> CountedSet<Element> {
+		var tSet = self
+		tSet.subtracted(newSet)
+		return tSet
+	}
+
+	/// takes a CountedSet and subtracts counts from self
+	mutating func subtracted(_ newSet: CountedSet<Element>) {
+		for item in newSet {
+			self[item.member] -= item.count
+		}
+	}
+
 	// MARK: - intersection
 	/// Returns a new CountedSet where the items and counts directly overlap with the new set
 	func intersected(with newSet: CountedSet<Element>) -> CountedSet<Element> {
@@ -199,5 +214,39 @@ func testIntersection() {
 	bCountedSet
 
 	aCountedSet.intersection(with: bCountedSet)
+	aCountedSet
+	bCountedSet
 }
 testIntersection()
+
+
+// MARK: - subtraction tests
+func testSubtraction() {
+	var aCountedSet = CountedSet<Arrow>()
+	for _ in 1...5 {
+		aCountedSet.insert(.dwarvish)
+	}
+	for _ in 1...2 {
+		aCountedSet.insert(.elven)
+	}
+	for _ in 1...1 {
+		aCountedSet.insert(.iron)
+	}
+
+	var bCountedSet = CountedSet<Arrow>()
+	for _ in 1...4 {
+		bCountedSet.insert(.dwarvish)
+	}
+	for _ in 1...2 {
+		bCountedSet.insert(.elven)
+	}
+
+	_ = aCountedSet.subtraction(of: bCountedSet)
+	aCountedSet
+	bCountedSet
+
+	aCountedSet.subtracted(bCountedSet)
+	aCountedSet
+	bCountedSet
+}
+testSubtraction()
