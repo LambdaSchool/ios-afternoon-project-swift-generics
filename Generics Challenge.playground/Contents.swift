@@ -2,6 +2,7 @@ import Cocoa
 
 struct CountedSet<Element: Hashable> {
 	private var contents: [Element: Int] = [:]
+	
 
 	mutating func insert(_ element: Element) {
 		contents[element, default: 0] += 1
@@ -45,10 +46,38 @@ struct CountedSet<Element: Hashable> {
 }
 
 extension CountedSet: ExpressibleByArrayLiteral {
-	init(arrayLiteral: Element...) {
+	init(_ array: [Element]) {
 		self.init()
-		for element in arrayLiteral {
-			self.insert(element)
+		for item in array {
+			insert(item)
 		}
 	}
+
+	init(arrayLiteral: Element...) {
+		self.init(arrayLiteral)
+	}
 }
+
+
+extension CountedSet: CustomStringConvertible {
+	var description: String {
+		return "\(contents)"
+	}
+}
+
+// MARK: - tests
+
+enum Arrow: String { case iron, wooden, elven, dwarvish, magic, silver }
+extension Arrow: CustomStringConvertible {
+	var description: String {
+		return self.rawValue
+	}
+}
+var aCountedSet = CountedSet<Arrow>()
+aCountedSet[.iron] // 0
+var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron]
+myCountedSet[.iron] // 4
+myCountedSet.remove(.iron) // 3
+myCountedSet.remove(.dwarvish) // 0
+myCountedSet.remove(.magic) // 0
+
