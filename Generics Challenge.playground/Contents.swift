@@ -2,28 +2,13 @@ import Cocoa
 
 struct CountedSet<Element: Hashable> {
 	private(set) var contents: [Element: Int] = [:]
-	
 
-	mutating func insert(_ element: Element) {
-		contents[element, default: 0] += 1
-	}
-
-	mutating func remove(_ element: Element) {
-		if let count = contents[element] {
-			if count > 1 {
-				contents[element] = count - 1
-			} else {
-				contents.removeValue(forKey: element)
-			}
-		}
+	var count: Int {
+		return contents.isEmpty ? 0 : contents.count
 	}
 
 	func contains(_ member: Element) -> Bool {
 		return contents[member] != nil
-	}
-
-	var count: Int {
-		return contents.isEmpty ? 0 : contents.count
 	}
 
 	subscript(_ member: Element) -> Int {
@@ -42,6 +27,32 @@ struct CountedSet<Element: Hashable> {
 				contents[member] = newValue
 			}
 		}
+	}
+
+	mutating func insert(_ element: Element) {
+		contents[element, default: 0] += 1
+	}
+
+	mutating func remove(_ element: Element) {
+		if let count = contents[element] {
+			if count > 1 {
+				contents[element] = count - 1
+			} else {
+				contents.removeValue(forKey: element)
+			}
+		}
+	}
+
+	func unioned(with newSet: CountedSet<Element>) -> CountedSet<Element> {
+		var tSet = self
+		for item in newSet {
+			tSet[item.member] += item.count
+		}
+		return tSet
+	}
+
+	mutating func union(with newSet: CountedSet<Element>) {
+		self = unioned(with: newSet)
 	}
 }
 
@@ -71,6 +82,8 @@ extension CountedSet: Sequence {
 	}
 }
 
+extension CountedSet: Equatable {}
+
 struct CountedSetIterator<Element: Hashable, Int>: IteratorProtocol {
 	let contents: [Element: Int]
 	var contentsIterator: DictionaryIterator<Element, Int>
@@ -85,7 +98,6 @@ struct CountedSetIterator<Element: Hashable, Int>: IteratorProtocol {
 		return (nextValue.key, nextValue.value)
 	}
 }
-
 
 // MARK: - tests
 
@@ -106,3 +118,34 @@ myCountedSet.remove(.magic) // 0
 for item in myCountedSet {
 	print(item)
 }
+
+for _ in 1...3 {
+	aCountedSet.insert(.dwarvish)
+}
+for _ in 1...5 {
+	aCountedSet.insert(.elven)
+}
+for _ in 1...20 {
+	aCountedSet.insert(.iron)
+}
+
+var bArray = [Arrow]()
+for _ in 1...3 {
+	aCountedSet.insert(.magic)
+}
+for _ in 1...20 {
+	aCountedSet.insert(.elven)
+}
+var bCountedSet = CountedSet(bArray)
+
+let cCountedSet = aCountedSet.unioned(with: bCountedSet)
+cCountedSet
+
+aCountedSet.union(with: bCountedSet)
+aCountedSet
+
+aCountedSet == cCountedSet
+aCountedSet == bCountedSet
+aCountedSet != cCountedSet
+aCountedSet != bCountedSet
+
