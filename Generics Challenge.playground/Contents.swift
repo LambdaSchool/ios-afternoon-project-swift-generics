@@ -43,6 +43,23 @@ struct CountedSet<Element: Hashable> {
 		}
 	}
 
+	// MARK: - intersection
+	/// Returns a new CountedSet where the items and counts directly overlap with the new set
+	func intersected(with newSet: CountedSet<Element>) -> CountedSet<Element> {
+		var tSet = CountedSet<Element>()
+		for item in newSet {
+			if self[item.member] != 0 && self[item.member] == item.count {
+				tSet[item.member] = item.count
+			}
+		}
+		return tSet
+	}
+
+	mutating func intersection(with newSet: CountedSet<Element>) {
+		self = intersected(with: newSet)
+	}
+
+	// MARK: - Union
 	func unioned(with newSet: CountedSet<Element>) -> CountedSet<Element> {
 		var tSet = self
 		for item in newSet {
@@ -107,44 +124,80 @@ extension Arrow: CustomStringConvertible {
 		return self.rawValue
 	}
 }
-var aCountedSet = CountedSet<Arrow>()
-aCountedSet[.iron] // 0
-var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron]
-myCountedSet[.iron] // 4
-myCountedSet.remove(.iron) // 3
-myCountedSet.remove(.dwarvish) // 0
-myCountedSet.remove(.magic) // 0
+func basicTests() {
+	var aCountedSet = CountedSet<Arrow>()
+	aCountedSet[.iron] // 0
+	var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron]
+	myCountedSet[.iron] // 4
+	myCountedSet.remove(.iron) // 3
+	myCountedSet.remove(.dwarvish) // 0
+	myCountedSet.remove(.magic) // 0
 
-for item in myCountedSet {
-	print(item)
+	for item in myCountedSet {
+		print(item)
+	}
 }
+basicTests()
 
-for _ in 1...3 {
-	aCountedSet.insert(.dwarvish)
+func unionTests() {
+	var aCountedSet = CountedSet<Arrow>()
+	for _ in 1...3 {
+		aCountedSet.insert(.dwarvish)
+	}
+	for _ in 1...5 {
+		aCountedSet.insert(.elven)
+	}
+	for _ in 1...20 {
+		aCountedSet.insert(.iron)
+	}
+
+	var bArray = [Arrow]()
+	for _ in 1...3 {
+		bArray.append(.magic)
+	}
+	for _ in 1...20 {
+		bArray.append(.elven)
+	}
+	let bCountedSet = CountedSet(bArray)
+
+	let cCountedSet = aCountedSet.unioned(with: bCountedSet)
+	aCountedSet
+
+	aCountedSet.union(with: bCountedSet)
+
+	// MARK: - equality tests
+	aCountedSet == cCountedSet
+	aCountedSet == bCountedSet
+	aCountedSet != cCountedSet
+	aCountedSet != bCountedSet
 }
-for _ in 1...5 {
-	aCountedSet.insert(.elven)
+unionTests()
+
+// MARK: - intersection tests
+func testIntersection() {
+	var aCountedSet = CountedSet<Arrow>()
+	for _ in 1...5 {
+		aCountedSet.insert(.dwarvish)
+	}
+	for _ in 1...2 {
+		aCountedSet.insert(.elven)
+	}
+	for _ in 1...1 {
+		aCountedSet.insert(.iron)
+	}
+
+	var bCountedSet = CountedSet<Arrow>()
+	for _ in 1...4 {
+		bCountedSet.insert(.dwarvish)
+	}
+	for _ in 1...2 {
+		bCountedSet.insert(.elven)
+	}
+
+	_ = aCountedSet.intersected(with: bCountedSet)
+	aCountedSet
+	bCountedSet
+
+	aCountedSet.intersection(with: bCountedSet)
 }
-for _ in 1...20 {
-	aCountedSet.insert(.iron)
-}
-
-var bArray = [Arrow]()
-for _ in 1...3 {
-	bArray.append(.magic)
-}
-for _ in 1...20 {
-	bArray.append(.elven)
-}
-var bCountedSet = CountedSet(bArray)
-
-let cCountedSet = aCountedSet.unioned(with: bCountedSet)
-aCountedSet
-
-aCountedSet.union(with: bCountedSet)
-
-aCountedSet == cCountedSet
-aCountedSet == bCountedSet
-aCountedSet != cCountedSet
-aCountedSet != bCountedSet
-
+testIntersection()
