@@ -53,15 +53,15 @@ struct CountedSet<Element: Hashable> {
 	}
 
 	// MARK: - subtraction
-	/// returns a CountedSet that is the result of subtracting a new set from the original
-	func subtraction(of newSet: CountedSet<Element>) -> CountedSet<Element> {
+	/// returns a QuickCountedSet that is the result of subtracting a new set from the original
+	func subtracted(_ newSet: CountedSet<Element>) -> CountedSet<Element> {
 		var tSet = self
-		tSet.subtracted(newSet)
+		tSet.subtraction(newSet)
 		return tSet
 	}
 
-	/// takes a CountedSet and subtracts counts from self
-	mutating func subtracted(_ newSet: CountedSet<Element>) {
+	/// takes a QuickCountedSet and subtracts counts from self
+	mutating func subtraction(_ newSet: CountedSet<Element>) {
 		for item in newSet {
 			self[item.member] -= item.count
 		}
@@ -250,11 +250,11 @@ func testSubtraction() {
 		bCountedSet.insert(.elven)
 	}
 
-	_ = aCountedSet.subtraction(of: bCountedSet)
+	_ = aCountedSet.subtracted(bCountedSet)
 	aCountedSet
 	bCountedSet
 
-	aCountedSet.subtracted(bCountedSet)
+	aCountedSet.subtraction(bCountedSet)
 	aCountedSet
 	bCountedSet
 }
