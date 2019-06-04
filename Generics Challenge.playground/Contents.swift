@@ -131,18 +131,17 @@ for _ in 1...20 {
 
 var bArray = [Arrow]()
 for _ in 1...3 {
-	aCountedSet.insert(.magic)
+	bArray.append(.magic)
 }
 for _ in 1...20 {
-	aCountedSet.insert(.elven)
+	bArray.append(.elven)
 }
 var bCountedSet = CountedSet(bArray)
 
 let cCountedSet = aCountedSet.unioned(with: bCountedSet)
-cCountedSet
+aCountedSet
 
 aCountedSet.union(with: bCountedSet)
-aCountedSet
 
 aCountedSet == cCountedSet
 aCountedSet == bCountedSet
