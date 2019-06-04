@@ -1,7 +1,7 @@
 import Cocoa
 
 struct CountedSet<Element: Hashable> {
-	private var contents: [Element: Int] = [:]
+	private(set) var contents: [Element: Int] = [:]
 	
 
 	mutating func insert(_ element: Element) {
@@ -65,6 +65,28 @@ extension CountedSet: CustomStringConvertible {
 	}
 }
 
+extension CountedSet: Sequence {
+	func makeIterator() -> CountedSetIterator<Element, Int> {
+		return CountedSetIterator(contents: contents)
+	}
+}
+
+struct CountedSetIterator<Element: Hashable, Int>: IteratorProtocol {
+	let contents: [Element: Int]
+	var contentsIterator: DictionaryIterator<Element, Int>
+
+	init(contents: [Element: Int]) {
+		self.contents = contents
+		contentsIterator = contents.makeIterator()
+	}
+
+	mutating func next() -> (member: Element, count: Int)? {
+		guard let nextValue = contentsIterator.next() else { return nil }
+		return (nextValue.key, nextValue.value)
+	}
+}
+
+
 // MARK: - tests
 
 enum Arrow: String { case iron, wooden, elven, dwarvish, magic, silver }
@@ -81,3 +103,6 @@ myCountedSet.remove(.iron) // 3
 myCountedSet.remove(.dwarvish) // 0
 myCountedSet.remove(.magic) // 0
 
+for item in myCountedSet {
+	print(item)
+}
