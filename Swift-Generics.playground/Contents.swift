@@ -16,23 +16,16 @@ struct CountedSet<E: Hashable> {
 	
 	subscript(_ element: E) -> Int {
 		guard let elements = elements else { return 0 }
-		
-		var i = 0
-		for e in elements {
-			if e == element {
-				break
-			} else {
-				i += 1
-			}
-		}
-		return i
+		return elements.count
 	}
 }
 
 enum Arrow { case iron, elven, dwarvish, magic, silver }
 
 
-var aCountedSet = CountedSet<Arrow>()
+var aCountedSet = CountedSet<Arrow>(elements: [.dwarvish, .elven, .iron])
 aCountedSet[.iron]
 
 
+//var myCountedSet: CountedSet<Arrow> = [.iron]
+//myCountedSet[.iron] // 4
