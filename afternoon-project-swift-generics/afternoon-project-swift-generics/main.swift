@@ -32,6 +32,7 @@ class test {
 		set.insert("String4")
 		set.insert("String4")
 		set.insert("String4")
+		print(set["String4"]!)
 		print(set)
 	}
 
@@ -48,6 +49,11 @@ struct CountedSet<Element: Hashable> {
 		elements.removeValue(forKey: element)
 	}
 	
+	subscript(_ member: Element) -> Int? {
+		get {
+			return elements[member]
+		}
+	}
 	
 }
 
