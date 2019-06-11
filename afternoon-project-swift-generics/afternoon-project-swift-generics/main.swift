@@ -103,6 +103,8 @@ struct test {
 		set.insert("String4")
 		set["String4"] = 10
 		print("set[String4] == ",set["String4"])
+		let test = set.contains("String4") == true
+		print(test)
 		
 	}
 }
