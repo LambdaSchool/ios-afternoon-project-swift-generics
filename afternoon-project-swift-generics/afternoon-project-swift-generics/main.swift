@@ -22,7 +22,7 @@ myCountedSet.remove(.magic) // 0
 */
 
 
-class test {
+struct test {
 	
 	var test1 = {
 		var set = CountedSet<String>()
