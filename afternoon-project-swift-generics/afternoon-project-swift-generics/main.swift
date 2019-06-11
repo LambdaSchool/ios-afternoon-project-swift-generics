@@ -42,7 +42,8 @@ class test {
 	var test2 = {
 		enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
 		var myCountedSet = CountedSet<Arrow>()
-		
+		myCountedSet[.dwarvish] = 100
+		print(myCountedSet[.dwarvish])
 		print("myCountedSet.isEmpty = ", myCountedSet.isEmpty)
 		myCountedSet = [.iron, .magic, .iron, .silver, .iron, .iron]
 		
@@ -62,6 +63,7 @@ class test {
 		print("unit test3")
 		enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
 		var aCountedSet = CountedSet<Arrow>()
+		
 		if aCountedSet[.iron] == 0 { // 0
 			print("Test 1 Passed")
 		
@@ -83,16 +85,17 @@ class test {
 		}else {
 			print("Test 4 Failed: \n \(myCountedSet[.dwarvish]) != 0")
 		}
-		
 		myCountedSet.remove(.magic) // 0
-
+		if myCountedSet[.dwarvish] == 0 {
+			print("Test 4 Passes")
+		}else {
+			print("Test 4 Failed: \n \(myCountedSet[.dwarvish]) != 0")
+		}
 	}
 	
 }
 
 struct CountedSet<Element: Hashable> {
-	private (set) var elements: [Element: Int] =  [:]
-	
 	var count: Int  {
 		return elements.count
 	}
@@ -112,8 +115,6 @@ struct CountedSet<Element: Hashable> {
 		} else {
 			self.elements[e, default: 0] -= 1
 		}
-		
-
 	}
 	
 	/// returns 0 on error
@@ -121,8 +122,14 @@ struct CountedSet<Element: Hashable> {
 		get {
 			return elements[member, default: 0]
 		}
+		
+		set(newValue) {
+			elements[member, default: 0] = newValue
+		}
 	}
 	
+	
+	private (set) var elements: [Element: Int] =  [:]
 }
 
 extension CountedSet: ExpressibleByArrayLiteral {
@@ -134,7 +141,7 @@ extension CountedSet: ExpressibleByArrayLiteral {
 	}
 }
 
-test().test3()
+test().test2()
 
 
 
