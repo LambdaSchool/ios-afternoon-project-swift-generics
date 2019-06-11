@@ -59,6 +59,7 @@ class test {
 	}
 	
 	var test3 = {
+		print("unit test3")
 		enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
 		var aCountedSet = CountedSet<Arrow>()
 		if aCountedSet[.iron] == 0 { // 0
@@ -77,6 +78,12 @@ class test {
 		}
 		
 		myCountedSet.remove(.dwarvish) // 0
+		if myCountedSet[.dwarvish] == 0 {
+			print("Test 4 Passes")
+		}else {
+			print("Test 4 Failed: \n \(myCountedSet[.dwarvish]) != 0")
+		}
+		
 		myCountedSet.remove(.magic) // 0
 
 	}
@@ -99,17 +106,20 @@ struct CountedSet<Element: Hashable> {
 	}
 	
 	mutating func remove(_ e: Element) {
-		if elements.count == 1 {
+		guard let ecount = elements[e] else { return }
+		if ecount == 1 {
 			elements.removeValue(forKey: e)
 		} else {
 			self.elements[e, default: 0] -= 1
 		}
+		
+
 	}
 	
 	/// returns 0 on error
 	subscript(_ member: Element) -> Int {
 		get {
-			return elements[member] ?? 0
+			return elements[member, default: 0]
 		}
 	}
 	
