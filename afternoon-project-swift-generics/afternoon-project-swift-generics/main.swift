@@ -46,7 +46,8 @@ class test {
 		myCountedSet.insert(.dwarvish)
 		myCountedSet.insert(.dwarvish)
 		print(myCountedSet[.dwarvish])
-		
+		//let count = myCountedSet.count
+		//print(count)
 //
 //		myCountedSet.remove(.iron) // 3
 //		myCountedSet.remove(.dwarvish) // 0
@@ -57,7 +58,12 @@ class test {
 }
 
 struct CountedSet<Element: Hashable> {
-	private (set) var elements: [Element: Int] =  [:]
+	var elements: [Element: Int] =  [:]
+	
+	var count: Int  {
+		return elements.count
+	}
+	
 	
 	mutating func  insert(_ element: Element) {
 		elements[element, default: 0] += 1
@@ -67,11 +73,11 @@ struct CountedSet<Element: Hashable> {
 		elements.removeValue(forKey: element)
 	}
 	
-	/// returns -1 on error
+	/// returns 0 on error
 	subscript(_ member: Element) -> Int {
 		
 		get {
-			return elements[member] ?? -1
+			return elements[member] ?? 0
 		}
 	}
 	
