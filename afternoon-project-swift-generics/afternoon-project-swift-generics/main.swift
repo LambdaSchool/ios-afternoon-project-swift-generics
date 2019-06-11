@@ -19,34 +19,42 @@ myCountedSet.remove(.dwarvish) // 0
 myCountedSet.remove(.magic) // 0
 
 */
+class test {
+	
+	var test1 = {
+		var set = CountedSet<String>()
+		set.insert("String")
+		set.insert("String1")
+		set.insert("String2")
+		set.insert("String3")
+		set.insert("String3")
+		set.insert("String4")
+		set.insert("String4")
+		set.insert("String4")
+		set.insert("String4")
+		print(set)
+	}
 
+}
 
 struct CountedSet<Element: Hashable> {
 	private (set) var elements: [Element: Int] =  [:]
 	
-	//Add insertion and removal (insert and remove) of one element at a time.
-	
 	mutating func  insert(_ element: Element) {
-		elements[element, default: 0] = 1
+		elements[element, default: 0] += 1
 	}
-	ç
+	
 	mutating func remove(_ element: Element) {
 		elements.removeValue(forKey: element)
 	}
 	
+	
 }
 
-//enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
-var set = CountedSet<String>()
-
-set.insert("String")
-set.insert("String1")
-set.insert("String2")
-set.insert("String3")
-set.insert("String4")
-set.insert("String4")
+test().test1()
 
 
-print(set)
+enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
+var arrow = CountedSet<Arrow>()
 
 
