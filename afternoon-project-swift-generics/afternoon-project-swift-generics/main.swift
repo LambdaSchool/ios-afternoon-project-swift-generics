@@ -8,6 +8,7 @@
 
 import Foundation
 
+
 /*
 enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
 var aCountedSet = CountedSet<Arrow>()
@@ -19,6 +20,8 @@ myCountedSet.remove(.dwarvish) // 0
 myCountedSet.remove(.magic) // 0
 
 */
+
+
 class test {
 	
 	var test1 = {
@@ -32,10 +35,25 @@ class test {
 		set.insert("String4")
 		set.insert("String4")
 		set.insert("String4")
-		print(set["String4"]!)
+		print(set["String4"])
 		print(set)
 	}
 
+	var test2 = {
+		enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
+		var myCountedSet = CountedSet<Arrow>()
+		
+		myCountedSet.insert(.dwarvish)
+		myCountedSet.insert(.dwarvish)
+		print(myCountedSet[.dwarvish])
+		
+//
+//		myCountedSet.remove(.iron) // 3
+//		myCountedSet.remove(.dwarvish) // 0
+//		myCountedSet.remove(.magic) // 0
+
+	}
+	
 }
 
 struct CountedSet<Element: Hashable> {
@@ -49,18 +67,18 @@ struct CountedSet<Element: Hashable> {
 		elements.removeValue(forKey: element)
 	}
 	
-	subscript(_ member: Element) -> Int? {
+	/// returns -1 on error
+	subscript(_ member: Element) -> Int {
+		
 		get {
-			return elements[member]
+			return elements[member] ?? -1
 		}
 	}
 	
 }
 
-test().test1()
+test().test2()
 
 
-enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
-var arrow = CountedSet<Arrow>()
 
 
