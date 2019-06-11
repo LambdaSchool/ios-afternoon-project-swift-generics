@@ -46,9 +46,10 @@ class test {
 		myCountedSet.insert(.dwarvish)
 		myCountedSet.insert(.dwarvish)
 		print(myCountedSet[.dwarvish])
-		//let count = myCountedSet.count
-		//print(count)
-//
+		let count = myCountedSet.count
+		print(count)
+		
+		
 //		myCountedSet.remove(.iron) // 3
 //		myCountedSet.remove(.dwarvish) // 0
 //		myCountedSet.remove(.magic) // 0
@@ -64,6 +65,9 @@ struct CountedSet<Element: Hashable> {
 		return elements.count
 	}
 	
+	var isEmpty: Bool {
+		return self.count == 0 ? true : false
+	}
 	
 	mutating func  insert(_ element: Element) {
 		elements[element, default: 0] += 1
