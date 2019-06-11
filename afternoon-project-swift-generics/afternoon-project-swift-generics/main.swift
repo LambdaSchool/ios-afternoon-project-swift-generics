@@ -41,8 +41,11 @@ class test {
 
 	var test2 = {
 		enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
-		//var myCountedSet = CountedSet<Arrow>()
-		var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron]
+		var myCountedSet = CountedSet<Arrow>()
+		
+		print("myCountedSet.isEmpty = ", myCountedSet.isEmpty)
+		myCountedSet = [.iron, .magic, .iron, .silver, .iron, .iron]
+		
 		myCountedSet.insert(.dwarvish)
 		myCountedSet.insert(.dwarvish)
 		myCountedSet.insert(.elven)
@@ -50,22 +53,38 @@ class test {
 		myCountedSet.insert(.silver)
 		myCountedSet.insert(.magic)
 		
+		print("myCountedSet[.iron] = ", myCountedSet[.iron])
+		print("myCountedSet.cout = ", myCountedSet.count)
+		print("myCountedSet.isEmpty = ", myCountedSet.isEmpty)
+	}
+	
+	var test3 = {
+		enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
+		var aCountedSet = CountedSet<Arrow>()
+		if aCountedSet[.iron] == 0 { // 0
+			print("Test 1 Passed")
 		
-		print(myCountedSet[.iron])
-		let count = myCountedSet.count
-		print(,count)
-		print(myCountedSet.isEmpty)
+		}
+		var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron]
 		
-//		myCountedSet.remove(.iron) // 3
-//		myCountedSet.remove(.dwarvish) // 0
-//		myCountedSet.remove(.magic) // 0
+		if  myCountedSet[.iron] == 4 {
+			print("Test 2 Passed")
+		}
+		
+		myCountedSet.remove(.iron) // 3
+		if myCountedSet[.iron] == 3 {
+			print("Test 3 Passes")
+		}
+		
+		myCountedSet.remove(.dwarvish) // 0
+		myCountedSet.remove(.magic) // 0
 
 	}
 	
 }
 
 struct CountedSet<Element: Hashable> {
-	var elements: [Element: Int] =  [:]
+	private (set) var elements: [Element: Int] =  [:]
 	
 	var count: Int  {
 		return elements.count
@@ -79,8 +98,12 @@ struct CountedSet<Element: Hashable> {
 		elements[element, default: 0] += 1
 	}
 	
-	mutating func remove(_ element: Element) {
-		elements.removeValue(forKey: element)
+	mutating func remove(_ e: Element) {
+		if elements.count == 1 {
+			elements.removeValue(forKey: e)
+		} else {
+			self.elements[e, default: 0] -= 1
+		}
 	}
 	
 	/// returns 0 on error
@@ -101,7 +124,7 @@ extension CountedSet: ExpressibleByArrayLiteral {
 	}
 }
 
-test().test2()
+test().test3()
 
 
 
