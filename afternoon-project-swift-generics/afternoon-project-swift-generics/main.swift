@@ -41,14 +41,20 @@ class test {
 
 	var test2 = {
 		enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
-		var myCountedSet = CountedSet<Arrow>()
+		//var myCountedSet = CountedSet<Arrow>()
+		var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron]
+		myCountedSet.insert(.dwarvish)
+		myCountedSet.insert(.dwarvish)
+		myCountedSet.insert(.elven)
+		myCountedSet.insert(.elven)
+		myCountedSet.insert(.silver)
+		myCountedSet.insert(.magic)
 		
-		myCountedSet.insert(.dwarvish)
-		myCountedSet.insert(.dwarvish)
-		print(myCountedSet[.dwarvish])
+		
+		print(myCountedSet[.iron])
 		let count = myCountedSet.count
-		print(count)
-		
+		print(,count)
+		print(myCountedSet.isEmpty)
 		
 //		myCountedSet.remove(.iron) // 3
 //		myCountedSet.remove(.dwarvish) // 0
@@ -79,12 +85,20 @@ struct CountedSet<Element: Hashable> {
 	
 	/// returns 0 on error
 	subscript(_ member: Element) -> Int {
-		
 		get {
 			return elements[member] ?? 0
 		}
 	}
 	
+}
+
+extension CountedSet: ExpressibleByArrayLiteral {
+	init(arrayLiteral: Element...) {
+		self.init()
+		for element in arrayLiteral {
+			self.insert(element)
+		}
+	}
 }
 
 test().test2()
