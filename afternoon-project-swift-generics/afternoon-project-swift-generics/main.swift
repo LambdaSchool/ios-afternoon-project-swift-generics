@@ -92,7 +92,19 @@ struct test {
 			print("Test 4 Failed: \n \(myCountedSet[.dwarvish]) != 0")
 		}
 	}
-	
+
+	var test4_contains = {
+		var set = CountedSet<String>()
+		set.insert("String")
+		set.insert("String1")
+		set.insert("String2")
+		set.insert("String3")
+		set.insert("String3")
+		set.insert("String4")
+		set["String4"] = 10
+		print("set[String4] == ",set["String4"])
+		
+	}
 }
 
 struct CountedSet<Element: Hashable> {
@@ -115,6 +127,14 @@ struct CountedSet<Element: Hashable> {
 		} else {
 			self.elements[e, default: 0] -= 1
 		}
+	}
+	
+	func contains(_ e: Element) -> Bool {
+		if let _ = elements[e] {
+			return  true
+		}
+		
+		return false
 	}
 	
 	/// returns 0 on error
@@ -141,7 +161,7 @@ extension CountedSet: ExpressibleByArrayLiteral {
 	}
 }
 
-test().test2()
+test().test4_contains()
 
 
 
