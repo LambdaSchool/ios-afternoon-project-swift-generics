@@ -9,6 +9,11 @@ struct CountedSet<Element: Hashable> {
         return self.elements.count == 0
     }
     
+    func contains(_ element: Element) -> Bool {
+        guard let items = self.elements[element] else { return false }
+        return items > 0
+    }
+    
     subscript(_ element: Element) -> Int {
         return self.elements[element] ?? 0
     }
@@ -18,12 +23,12 @@ struct CountedSet<Element: Hashable> {
     }
     
     mutating func remove(_ element: Element) -> Int {
-        guard let ecount = self.elements[element] else { return 0 }
+        guard let items = self.elements[element] else { return 0 }
         
-        if ecount == 0 {
+        if items == 0 {
             self.elements.removeValue(forKey: element)
         } else {
-            self.elements[element] = ecount - 1
+            self.elements[element] = items - 1
         }
         
         return self.elements[element]!
@@ -47,3 +52,6 @@ myCountedSet[.iron] // 4
 myCountedSet.remove(.iron) // 3
 myCountedSet.remove(.dwarvish) // 0
 myCountedSet.remove(.magic) // 0
+myCountedSet.contains(.iron) // true
+myCountedSet.contains(.dwarvish) // false
+myCountedSet.contains(.magic) // false
