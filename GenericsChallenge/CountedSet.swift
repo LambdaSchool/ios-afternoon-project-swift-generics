@@ -10,24 +10,38 @@ import Foundation
 
 struct CountedSet<Element: Hashable> {
     
-    var elements: [Element]
-    
+    var elements: [Element] = []
 //    Add insertion and removal (insert and remove) of one element at a time.
     mutating func insert(_ element: Element) {
         elements.append(element)
     }
-    mutating func remove(_ element: Element) {
-        if let index = elements.firstIndex(of: element) {
-            elements.remove(at: index)
+    mutating func remove(_ element: Element) -> Int {
+        var duplicateCount = 0
+        var alreadyHave = false
+        var tempElements: [Element] = []
+        for item in elements {
+            if item == element && !alreadyHave {
+                alreadyHave = true
+                tempElements.append(item)
+            } else if item == element && alreadyHave {
+                duplicateCount += 1
+            } else {
+                tempElements.append(item)
+            }
+            
         }
+        elements = tempElements
+        return duplicateCount
     }
 //    Support subscripting to look up current values (by implementing subscript(_ member: Element) -> Int). Return 0 for any value that is not found.
     subscript(_ members: Element) -> Int {
-        if let index = elements.firstIndex(of: members) {
-            return index
-        } else {
-            return 0
+        var numOfElement = 0
+        for element in elements {
+            if element == members {
+                numOfElement += 1
+            }
         }
+        return numOfElement
     }
 //    Add count, returning the number of unique elements in the counted set and isEmpty for when count is zero.
     func count() -> String {
@@ -49,4 +63,17 @@ struct CountedSet<Element: Hashable> {
         }
         return result
     }
+}
+
+extension CountedSet: ExpressibleByArrayLiteral {
+    typealias ArrayLiteralElement = Element
+    
+    init(arrayLiteral elements: CountedSet.ArrayLiteralElement...) {
+        self.init()
+        for element in elements {
+            self.elements.append(element)
+        }
+    }
+    
+    
 }
