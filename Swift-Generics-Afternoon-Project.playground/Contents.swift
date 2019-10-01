@@ -28,6 +28,7 @@ struct CountedSet<T: Hashable>: ExpressibleByArrayLiteral {
                 }
                 
             }
+            elements = newArray
             return newArray
         } else {
             return nil
@@ -75,7 +76,11 @@ enum Arrow {
 var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron]
 
 myCountedSet.elementCount(element: .iron)
+myCountedSet.totalCount()
 myCountedSet.remove(element: .iron)
 myCountedSet[.magic]
-
+myCountedSet.remove(element: .magic)
+myCountedSet.remove(element: .silver)
+myCountedSet.totalCount()
+myCountedSet.remove(element: .iron)
 
