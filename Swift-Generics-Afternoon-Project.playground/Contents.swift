@@ -73,8 +73,11 @@ enum Arrow {
     case silver
 }
 
+var aCountedSet = CountedSet<Arrow>()
 var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron]
 
+aCountedSet[.iron]
+aCountedSet[.wooden]
 myCountedSet.elementCount(element: .iron)
 myCountedSet.totalCount()
 myCountedSet.remove(element: .iron)
@@ -83,4 +86,5 @@ myCountedSet.remove(element: .magic)
 myCountedSet.remove(element: .silver)
 myCountedSet.totalCount()
 myCountedSet.remove(element: .iron)
+
 
