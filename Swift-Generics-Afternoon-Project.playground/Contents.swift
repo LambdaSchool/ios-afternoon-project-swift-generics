@@ -52,11 +52,14 @@ struct CountedSet<T: Hashable>: ExpressibleByArrayLiteral {
         return elementCount
     }
     
-    subscript(_ index: Int) -> T {
-        get {
-            return elements[index]
-            
+    subscript(_ index: T) -> Int {
+        var itemCount = 0
+        for element in elements {
+            if element == index {
+                itemCount += 1
+            }
         }
+        return itemCount
     }
 }
 
@@ -73,5 +76,6 @@ var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .ir
 
 myCountedSet.elementCount(element: .iron)
 myCountedSet.remove(element: .iron)
+myCountedSet[.magic]
 
 
