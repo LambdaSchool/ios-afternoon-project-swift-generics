@@ -5,6 +5,10 @@ import UIKit
 struct CountedSet<T: Hashable>: Hashable {
     private var dictionary: [T: Int] = [:]
     
+    lazy var isEmpty: Bool = {
+        return dictionary.isEmpty
+    }()
+    
     mutating func insert(_ item: T) {
         dictionary[item] = self[item] + 1
     }
