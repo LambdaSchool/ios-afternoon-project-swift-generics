@@ -11,10 +11,10 @@ struct CountedSet<Element: Hashable>: ExpressibleByArrayLiteral {
     init(arrayLiteral elements: Element...) {
         
         for element in elements {
-            insert(element: &element)
+//            insert(element: &element)
             // Array literal
             storage[element] = storage[element] ?? 0 + 1
-            removeDuplicates(sequence: element)
+//            removeDuplicates(sequence: element)
             
         }
     }
@@ -39,8 +39,8 @@ struct CountedSet<Element: Hashable>: ExpressibleByArrayLiteral {
         }
     
     
-    
-    mutating func remove(element: Element) -> Int? {
+    }
+    mutating func remove(element: Element) {
         
         let count = storage[element] ?? 0
         
@@ -56,17 +56,17 @@ struct CountedSet<Element: Hashable>: ExpressibleByArrayLiteral {
             return Array(result)
         }
     
-}
 
+}
 enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
 
 var aCountedSet = CountedSet<Arrow>()
 aCountedSet[.iron] // 0
 var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron]
 myCountedSet[.iron] // 4
-myCountedSet.remove(.iron) // 3
-myCountedSet.remove(.dwarvish) // 0
-myCountedSet.remove(.magic) // 0
+myCountedSet.remove(element: .iron) // 3
+myCountedSet.remove(element: .dwarvish) // 0
+myCountedSet.remove(element: .magic) // 0
 
 
 
