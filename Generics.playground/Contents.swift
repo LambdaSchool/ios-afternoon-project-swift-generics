@@ -6,17 +6,11 @@ struct CountedSet<T: Hashable>: Hashable {
     private var dictionary: [T: Int] = [:]
     
     mutating func insert(_ item: T) {
-//        if dictionary.keys.contains(item) {
-//            dictionary[item]! += 1
-//        } else {
-//            dictionary[item] = 0
-//        }
-        
-        dictionary[item] = (dictionary[item] ?? 0) + 1
+        dictionary[item] = self[item] + 1
     }
     
     mutating func remove(_ item: T) {
-        if dictionary[item] ?? 0 > 0 {
+        if self[item] > 0 {
             dictionary[item]! -= 1
         }
     }
@@ -40,6 +34,8 @@ aCountedSet[.iron] // 0
 aCountedSet.insert(.iron)
 aCountedSet[.iron]
 aCountedSet[.iron] = 5
+aCountedSet[.iron]
+aCountedSet.remove(.iron)
 aCountedSet[.iron]
 
 var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron]
