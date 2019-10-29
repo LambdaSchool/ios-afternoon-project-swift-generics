@@ -31,6 +31,10 @@ struct CountedSet<T: Hashable>: Hashable {
         }
     }
     
+    func count() -> Int {
+        return dictionary.keys.count
+    }
+    
     func contains(_ element: T) -> Bool {
         return dictionary.keys.contains(element)
     }
