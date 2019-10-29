@@ -10,8 +10,10 @@ struct CountedSet<T: Hashable>: Hashable {
     }
     
     mutating func remove(_ item: T) {
-        if self[item] > 0 {
+        if self[item] > 1 {
             dictionary[item]! -= 1
+        } else if self[item] == 1 {
+            dictionary.removeValue(forKey: item)
         }
     }
     
@@ -24,6 +26,10 @@ struct CountedSet<T: Hashable>: Hashable {
             dictionary[member] = value
         }
     }
+    
+    func contains(_ element: T) -> Bool {
+        return dictionary.keys.contains(element)
+    }
 }
 
 // Test
@@ -33,6 +39,10 @@ var aCountedSet = CountedSet<Arrow>()
 aCountedSet[.iron] // 0
 aCountedSet.insert(.iron)
 aCountedSet[.iron]
+aCountedSet.contains(.iron)
+aCountedSet.remove(.iron)
+aCountedSet.contains(.iron)
+aCountedSet.contains(.silver)
 aCountedSet[.iron] = 5
 aCountedSet[.iron]
 aCountedSet.remove(.iron)
