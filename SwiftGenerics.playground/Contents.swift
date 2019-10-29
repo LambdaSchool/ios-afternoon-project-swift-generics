@@ -1,9 +1,7 @@
 import Foundation
 
 struct CountedSet<Element: Hashable>: ExpressibleByArrayLiteral {
-    
-    //    private(set) var storage =  [ Element : Element ].self
-    
+        
     typealias ArrayLiteralElement = Element
     
     private(set) var storage = [Element : Int]()
@@ -11,11 +9,10 @@ struct CountedSet<Element: Hashable>: ExpressibleByArrayLiteral {
     init(arrayLiteral elements: Element...) {
         
         for element in elements {
-//            insert(element: &element)
-            // Array literal
-            storage[element] = storage[element] ?? 0 + 1
-//            removeDuplicates(sequence: element)
+            insert(element: element)
             
+    //            storage[element] = storage[element] ?? 0 + 1
+    //            removeDuplicates(sequence: element)
         }
     }
     
@@ -26,38 +23,37 @@ struct CountedSet<Element: Hashable>: ExpressibleByArrayLiteral {
     func count() -> Int {
         return storage.count
     }
-        
-        
-    mutating func insert(element: inout Element) {
-            if storage[element] != nil {
+    
+    mutating func insert(element:  Element) {
+        if storage[element] != nil {
+
+            storage[element] = (storage[element] ?? 0) + 1
             
-//                        element.hashValue += 1
-                storage[element] = (storage[element] ?? 0) + 1
-            
-            } else {
-                storage[element] = (storage[element] ?? 0) + 1
+        } else {
+            storage[element] = (storage[element] ?? 0) + 1
         }
-    
-    
     }
+    
     mutating func remove(element: Element) {
         
         let count = storage[element] ?? 0
         
         if count > 0 {
             storage[element] = count - 1
-        
-    }
-
-        
-    }
-        func removeDuplicates<S: Sequence>(sequence: S) -> [S.Element] where S.Element: Hashable {
-            let result: Set<S.Element> = Set(sequence)
-            return Array(result)
+            
         }
+    }
     
-
+    func removeDuplicates<S: Sequence>(sequence: S) -> [S.Element] where S.Element: Hashable {
+        let result: Set<S.Element> = Set(sequence)
+        return Array(result)
+    }
 }
+
+
+
+//MARK: Testing
+
 enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
 
 var aCountedSet = CountedSet<Arrow>()
