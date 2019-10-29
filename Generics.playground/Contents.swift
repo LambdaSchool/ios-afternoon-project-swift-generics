@@ -9,16 +9,19 @@ struct CountedSet<T: Hashable>: Hashable {
         return dictionary.isEmpty
     }()
     
-    mutating func insert(_ item: T) {
+    @discardableResult mutating func insert(_ item: T) -> Int {
         dictionary[item] = self[item] + 1
+        return self[item]
     }
     
-    mutating func remove(_ item: T) {
+    @discardableResult mutating func remove(_ item: T) -> Int {
         if self[item] > 1 {
             dictionary[item]! -= 1
         } else if self[item] == 1 {
             dictionary.removeValue(forKey: item)
         }
+        
+        return self[item]
     }
     
     subscript(_ member: T) -> Int {
@@ -37,6 +40,15 @@ struct CountedSet<T: Hashable>: Hashable {
     
     func contains(_ element: T) -> Bool {
         return dictionary.keys.contains(element)
+    }
+}
+
+extension CountedSet: ExpressibleByArrayLiteral {
+    init(arrayLiteral elements: T...) {
+        self.init()
+        for element in elements {
+            self.insert(element)
+        }
     }
 }
 
