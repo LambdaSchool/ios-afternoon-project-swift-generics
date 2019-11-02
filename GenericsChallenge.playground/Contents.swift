@@ -2,8 +2,6 @@ import UIKit
 
 struct CountedSet<Element: Hashable>: ExpressibleByArrayLiteral {
     
-    typealias ArrayLiteralElement = Element
-    
     private(set) var storage = [Element: Int]()
     
     init(arrayLiteral elements: Element...) {
@@ -42,6 +40,8 @@ struct CountedSet<Element: Hashable>: ExpressibleByArrayLiteral {
 enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
 var aCountedSet = CountedSet<Arrow>()
 aCountedSet[.iron] // 0
+aCountedSet.insert(.iron)
+aCountedSet[.iron]
 var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron]
 myCountedSet[.iron] // 4
 myCountedSet.remove(.iron) // 3
