@@ -1,18 +1,32 @@
 import UIKit
 
-struct CountedSet<Value>: Hashable {
+
+
+
+struct CountedSet<Element: Hashable>: ExpressibleByArrayLiteral{
     
-    private(set) var 
+    typealias ArrayLiteralElement = Element
     
-    func insert() {
-        
+    
+    private(set) var dictionary = [Element:Int]()
+    
+    mutating func insert(_ member: Element) {
+        dictionary[member] = (dictionary[member] ?? 0) + 1
     }
     
-    func remove() {
-        
+    mutating func remove(_ member: Element) {
+        let count: Int = dictionary[member] ?? 0
+        if count > 0 {
+            dictionary[member] = count - 1
+        }
+    }
+
+    subscript(_ member: Element) -> Int {
+        return dictionary[member] ?? 0
     }
     
 }
+
 
 
 enum Arrow {
