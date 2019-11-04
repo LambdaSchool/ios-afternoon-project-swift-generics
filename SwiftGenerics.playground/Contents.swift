@@ -4,11 +4,15 @@ import UIKit
 
 
 struct CountedSet<Element: Hashable>: ExpressibleByArrayLiteral{
-    
+   
     typealias ArrayLiteralElement = Element
-    
+  
     
     private(set) var dictionary = [Element:Int]()
+    
+    init(arrayLiteral elements: Element...) {
+        
+       }
     
     mutating func insert(_ member: Element) {
         dictionary[member] = (dictionary[member] ?? 0) + 1
@@ -24,6 +28,7 @@ struct CountedSet<Element: Hashable>: ExpressibleByArrayLiteral{
     subscript(_ member: Element) -> Int {
         return dictionary[member] ?? 0
     }
+    
     
 }
 
