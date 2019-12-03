@@ -68,3 +68,19 @@ extension CountedSet: Sequence {
         return values.makeIterator()
     }
 }
+
+// MARK: - Union
+
+extension CountedSet {
+    mutating func formUnion(_ otherSet: CountedSet<Element>) {
+        for element in otherSet {
+            values[element.key] = (values[element.key] ?? 0) + element.value
+        }
+    }
+    
+    func union(_ otherSet: CountedSet<Element>) -> CountedSet<Element> {
+        var newSet = self
+        newSet.formUnion(otherSet)
+        return newSet
+    }
+}
