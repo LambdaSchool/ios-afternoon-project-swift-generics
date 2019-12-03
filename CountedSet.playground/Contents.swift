@@ -3,11 +3,9 @@ import Foundation
 struct CountedSet<Element: Hashable> {
     private var values = [Element: Int]()
     
-    mutating func insert(_ newElement: Element) {
-        if contains(newElement) {
-            values[newElement]! += 1
-        } else {
-            values[newElement] = 1
+    subscript(_ member: Element) -> Int {
+        get {
+            return values[member] ?? 0
         }
     }
     
@@ -18,6 +16,11 @@ struct CountedSet<Element: Hashable> {
     var isEmpty: Bool {
         return count == 0
     }
+    
+    mutating func insert(_ newElement: Element) {
+        values[newElement] = (values[newElement] ?? 0) + 1
+    }
+    
     mutating func remove(_ element: Element) -> Int {
         if contains(element) {
             values[element]! -= 1
