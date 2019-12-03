@@ -50,17 +50,6 @@ extension CountedSet: ExpressibleByArrayLiteral {
     typealias ArrayLiteralElement = Element
 }
 
-// MARK: - (tests)
-
-enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
-var aCountedSet = CountedSet<Arrow>()
-aCountedSet[.iron] // 0
-var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron]
-myCountedSet[.iron] // 4
-myCountedSet.remove(.iron) // 3
-myCountedSet.remove(.dwarvish) // 0
-myCountedSet.remove(.magic) // 0
-
 // MARK: - Sequence
 
 extension CountedSet: Sequence {
@@ -135,3 +124,21 @@ extension CountedSet: Equatable {
         return lhs.toDictionary() == rhs.toDictionary()
     }
 }
+
+// MARK: - (tests)
+
+enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
+var aCountedSet = CountedSet<Arrow>()
+aCountedSet[.iron] // 0
+var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron]
+myCountedSet[.iron] // 4
+myCountedSet.remove(.iron) // 3
+myCountedSet.remove(.dwarvish) // 0
+myCountedSet.remove(.magic) // 0
+
+var comparingCountedSet: CountedSet = ["gah", "gah", "gah", "woohoo", "whoops", "woohoo", "argh"]
+var equalCountedSet: CountedSet<String> = CountedSet(arrayLiteral: "gah", "gah", "woohoo", "whoops", "woohoo", "argh", "gah")
+var unequalCountedSet: CountedSet = ["gah", "gah", "gah", "woohoo", "whoops", "woohoo", "argh", "whoops"]
+
+print(comparingCountedSet == equalCountedSet)
+print(comparingCountedSet == unequalCountedSet)
