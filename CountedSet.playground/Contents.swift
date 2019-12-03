@@ -123,3 +123,11 @@ extension CountedSet {
         return true
     }
 }
+
+// MARK: - Equatable
+
+extension CountedSet: Equatable {
+    static func ==(_ lhs: CountedSet<Element>, _ rhs: CountedSet<Element>) -> Bool {
+        return false
+    }
+}
