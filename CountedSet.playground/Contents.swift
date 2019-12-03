@@ -83,4 +83,22 @@ extension CountedSet {
         newSet.formUnion(otherSet)
         return newSet
     }
+
+// MARK: - Intersection/Subtraction
+    
+    private init(_ set: CountedSet<Element>, intersectingSet: CountedSet<Element>) {
+        for (element, count) in intersectingSet {
+            let newElementCount: Int
+            if self.contains(element) && self[element] > count {
+                 newElementCount = self[element]
+            } else {
+                newElementCount = count
+            }
+            values[element] = newElementCount
+        }
+    }
+
+    func intersection(_ otherSet: CountedSet<Element>) -> CountedSet<Element> {
+        return CountedSet<Element>(self, intersectingSet: otherSet)
+    }
 }
