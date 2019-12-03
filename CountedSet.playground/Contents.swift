@@ -1,5 +1,7 @@
 import Foundation
 
+// MARK: - Basic Implementation
+
 struct CountedSet<Element: Hashable> {
     private var values = [Element: Int]()
     
@@ -36,6 +38,8 @@ struct CountedSet<Element: Hashable> {
     }
 }
 
+// MARK: - ExpressibleByArrayLiteral
+
 extension CountedSet: ExpressibleByArrayLiteral {
     init(arrayLiteral elements: Element...) {
         elements.forEach { element in
@@ -45,6 +49,8 @@ extension CountedSet: ExpressibleByArrayLiteral {
     
     typealias ArrayLiteralElement = Element
 }
+
+// MARK: - (tests)
 
 enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
 var aCountedSet = CountedSet<Arrow>()
