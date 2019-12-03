@@ -127,7 +127,11 @@ extension CountedSet {
 // MARK: - Equatable
 
 extension CountedSet: Equatable {
+    func toDictionary() -> [Element: Int] {
+        return values
+    }
+    
     static func ==(_ lhs: CountedSet<Element>, _ rhs: CountedSet<Element>) -> Bool {
-        return false
+        return lhs.toDictionary() == rhs.toDictionary()
     }
 }
