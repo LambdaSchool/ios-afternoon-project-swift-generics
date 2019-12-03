@@ -60,3 +60,11 @@ myCountedSet[.iron] // 4
 myCountedSet.remove(.iron) // 3
 myCountedSet.remove(.dwarvish) // 0
 myCountedSet.remove(.magic) // 0
+
+// MARK: - Sequence
+
+extension CountedSet: Sequence {
+    __consuming func makeIterator() -> DictionaryIterator<Element, Int> {
+        return values.makeIterator()
+    }
+}
