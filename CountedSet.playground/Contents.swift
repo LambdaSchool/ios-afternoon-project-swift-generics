@@ -17,10 +17,8 @@ struct CountedSet<Element: Hashable> {
             if values[element] == 0 {
                 values[element] = nil
             }
-            return values[element] ?? 0
-        } else {
-            return 0
         }
+        return values[element] ?? 0
     }
     
     func contains(_ element: Element) -> Bool {
