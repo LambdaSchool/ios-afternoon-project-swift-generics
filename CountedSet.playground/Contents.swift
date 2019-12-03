@@ -11,6 +11,13 @@ struct CountedSet<Element: Hashable> {
         }
     }
     
+    var count: Int {
+        return values.count
+    }
+    
+    var isEmpty: Bool {
+        return count == 0
+    }
     mutating func remove(_ element: Element) -> Int {
         if contains(element) {
             values[element]! -= 1
