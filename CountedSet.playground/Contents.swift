@@ -116,4 +116,10 @@ extension CountedSet {
         newSet.subtract(otherSet)
         return newSet
     }
+
+// MARK: - isDisjoint
+
+    var isDisjoint: Bool {
+        return true
+    }
 }
