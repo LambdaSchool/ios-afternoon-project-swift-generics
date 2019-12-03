@@ -34,7 +34,15 @@ struct CountedSet<Element: Hashable> {
     func contains(_ element: Element) -> Bool {
         return values[element] != nil
     }
+}
+
+extension CountedSet: ExpressibleByArrayLiteral {
+    init(arrayLiteral elements: Element...) {
+        elements.forEach { element in
+            insert(element)
+        }
+    }
     
-    
+    typealias ArrayLiteralElement = Element
 }
 
