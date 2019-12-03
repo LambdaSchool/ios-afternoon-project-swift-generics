@@ -101,4 +101,19 @@ extension CountedSet {
     func intersection(_ otherSet: CountedSet<Element>) -> CountedSet<Element> {
         return CountedSet<Element>(self, intersectingSet: otherSet)
     }
+    
+    mutating func subtract(_ otherSet: CountedSet<Element>) {
+        for (element, _) in self {
+            if otherSet.contains(element) {
+                values[element]! -= otherSet[element]
+                if values[element]! < 0 { remove(element) }
+            }
+        }
+    }
+    
+    func subtracting(_ otherSet: CountedSet<Element>) -> CountedSet<Element> {
+        var newSet = self
+        newSet.subtract(otherSet)
+        return newSet
+    }
 }
