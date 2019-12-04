@@ -29,7 +29,7 @@ struct CountedSet<Element: Hashable> {
     }
     
     var isEmpty: Bool {
-        return count == 0
+        return values.count == 0
     }
     
     mutating func insert(_ newElement: Element) {
@@ -37,8 +37,8 @@ struct CountedSet<Element: Hashable> {
     }
     
     @discardableResult mutating func remove(_ element: Element) -> Int {
-        let count = self[element]
-        values[element] = count >= 1 ? count - 1 : nil
+        let elementCount = self[element]
+        values[element] = elementCount >= 1 ? elementCount - 1 : nil
         return self[element]
     }
     
@@ -55,8 +55,6 @@ extension CountedSet: ExpressibleByArrayLiteral {
             insert(element)
         }
     }
-    
-    typealias ArrayLiteralElement = Element
 }
 
 // MARK: - Sequence
@@ -72,8 +70,8 @@ extension CountedSet: Sequence {
 extension CountedSet {
     func union(with otherSet: ElementSet) -> ElementSet {
         var newSet = self
-        for (element, count) in otherSet {
-            newSet[element] += count
+        for (element, elementCount) in otherSet {
+            newSet[element] += elementCount
         }
         return newSet
     }
@@ -85,13 +83,13 @@ extension CountedSet {
     static func +(lhs: ElementSet, rhs: ElementSet) -> ElementSet {
         return lhs.union(with: rhs)
     }
-
-// MARK: - Intersection/Subtraction
+    
+    // MARK: - Intersection
     
     func intersection(with otherSet: ElementSet) -> ElementSet {
         var newSet = ElementSet()
-        for (element, count) in self {
-            newSet[element] = Swift.min(count, otherSet[element])
+        for (element, elementCount) in self {
+            newSet[element] = Swift.min(elementCount, otherSet[element])
         }
         return newSet
     }
@@ -100,10 +98,12 @@ extension CountedSet {
         self = self.intersection(with: otherSet)
     }
     
+    // MARK: - Subtraction
+    
     func subtracting(_ otherSet: ElementSet) -> ElementSet {
         var newSet = ElementSet()
-        for (element, count) in self {
-            newSet[element] = count - otherSet[element]
+        for (element, elementCount) in self {
+            newSet[element] = elementCount - otherSet[element]
         }
         return newSet
     }
@@ -115,9 +115,9 @@ extension CountedSet {
     static func -(lhs: ElementSet, rhs: ElementSet) -> ElementSet {
         return lhs.subtracting(rhs)
     }
-
-// MARK: - isDisjoint
-
+    
+    // MARK: - isDisjoint
+    
     func isDisjoint(with otherSet: ElementSet) -> Bool {
         for (element, _) in self {
             if otherSet.contains(element) { return false }
@@ -161,8 +161,8 @@ var comparingCountedSet: CountedSet = ["gah", "gah", "gah", "woohoo", "whoops", 
 var equalCountedSet = CountedSet(arrayLiteral: "gah", "gah", "woohoo", "whoops", "woohoo", "argh", "gah")
 var unequalCountedSet: CountedSet = ["gah", "gah", "gah", "woohoo", "whoops", "woohoo", "gah", "woohoo", "huzzah?", "gah"]
 
-print(comparingCountedSet == equalCountedSet)
-print(comparingCountedSet == unequalCountedSet)
+print("true:          \(comparingCountedSet == equalCountedSet)")
+print("false:         \(comparingCountedSet == unequalCountedSet)")
 print("unequal:       \(unequalCountedSet)")
 print("comparing:     \(comparingCountedSet)")
 print("subtracted:    \(unequalCountedSet - comparingCountedSet)")
