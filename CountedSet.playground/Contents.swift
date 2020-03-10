@@ -15,7 +15,7 @@ struct CountedSet<Element : Hashable>  {
     private(set) var storage = [Element:Int]()
     
     mutating func insert(element: Element) {
-        elements.insert(element)
+        storage[element] = (storage[element] ?? 0) + 1
     }
     
       @discardableResult mutating func remove(_ element: Element) -> Int {
@@ -81,11 +81,21 @@ myCountedSet[.iron] // 4
 myCountedSet.remove(.iron) // 3
 myCountedSet.remove(.dwarvish) // 0
 myCountedSet.remove(.magic) // 0
-myCountedSet.insert(element: .elven)
+
+
 //MARK:- Sequence
 extension CountedSet: Sequence {
      func makeIterator() -> DictionaryIterator<Element, Int> {
         return storage.makeIterator()
     }
+    func contains(_ member: Element) -> Bool {
+       return storage[member] != nil
+    }
 }
-//MARK:- 
+
+extension CountedSet: Equatable {
+    static func ==(lhs: CountedSet, rhs: CountedSet) -> Bool {
+        return lhs.elements == rhs.elements
+    }
+}
+
