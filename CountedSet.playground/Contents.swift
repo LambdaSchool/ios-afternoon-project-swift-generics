@@ -43,15 +43,13 @@ struct CountedSet<Element : Hashable>  {
            }
     }
     
-    func count() -> Int {
-        return elements.count
+  var count: Int {
+        return storage.count
     }
-    
-    
-    func isEmpty() -> Bool {
-        return elements.count == 0
+
+    var isEmpty: Bool {
+        return storage.count == 0
     }
-    
     
 
 }
