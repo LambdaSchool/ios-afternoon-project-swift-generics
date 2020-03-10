@@ -1,19 +1,28 @@
 import UIKit
 import Foundation
 
-struct CountetSet<Element> where Element: Hashable {
- 
+enum Arrow: Hashable {
+    case iron
+    case wooden
+    case elven
+    case dwarvish
+    case magic
+    case silver
+}
+struct CountedSet<Element : Hashable>  {
     
     private(set) var elements = Set<Element>()
+    private(set) var storage = [Element:Int]()
     
     mutating func insert(element: Element) {
         elements.insert(element)
     }
     
-    mutating func remove() -> Element? {
-        guard elements.isEmpty == false else { return nil }
-        return elements.popFirst()
-    }
+      @discardableResult mutating func remove(_ element: Element) -> Int {
+          let elementCount = storage[element] ?? 0
+          storage[element] = elementCount >= 1 ? elementCount - 1 : nil
+          return self[element]
+      }
     
     func subcript(_ member: Element) -> Int {
         if !elements.contains(member) {
@@ -26,8 +35,16 @@ struct CountetSet<Element> where Element: Hashable {
         }
     }
     
+    subscript(_ member: Element) -> Int {
+           if let quantity = storage[member] {
+               return quantity
+           } else {
+               return 0
+           }
+    }
+    
     func count() -> Int {
-        return Set(elements).count
+        return elements.count
     }
     
     
@@ -39,16 +56,29 @@ struct CountetSet<Element> where Element: Hashable {
 
 }
 
-let test = CountetSet(elements: [2,6,7,77,7])
-let test2 = CountetSet(elements: ["Nick"])
+let test = CountedSet(elements: [2,6,7,77,7])
+let test2 = CountedSet(elements: ["Nick","Hello"])
 
-print(test2)
-test2.subcript("Nick")
-test2.subcript("Nancy")
 
-//extension CountetSet : ExpressibleByArrayLiteral {
-//    required init(arrayLiteral elements: Self.ArrayLiteralElement) {
-//        <#statements#>
-//    }
-//
-//}
+
+extension CountedSet: ExpressibleByArrayLiteral {
+    typealias ArrayLiteralElement = Element
+    
+    init(arrayLiteral elements: Element...) {
+           for element in elements {
+               storage[element] = (storage[element] ?? 0) + 1
+           }
+       }
+
+}
+
+
+var aCountedSet = CountedSet<Arrow>()
+aCountedSet[.iron] // 0
+var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron]
+print(myCountedSet)
+myCountedSet[.iron] // 4
+myCountedSet.remove(.iron) // 3
+myCountedSet.remove(.dwarvish) // 0
+myCountedSet.remove(.magic) // 0
+myCountedSet.insert(element: .elven)
