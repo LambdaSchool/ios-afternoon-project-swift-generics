@@ -53,9 +53,17 @@ extension CountedSet: ExpressibleByArrayLiteral {
 
 enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
 var aCountedSet = CountedSet<Arrow>()
-aCountedSet[.iron] // 0
+
+print(aCountedSet[.iron]) // 0
 var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron]
-myCountedSet[.iron] // 4
-myCountedSet.remove(.iron) // 3
-myCountedSet.remove(.dwarvish) // 0
-myCountedSet.remove(.magic) // 0
+print(myCountedSet[.iron]) // 4
+
+myCountedSet.remove(.iron)
+print(myCountedSet[.iron]) // 3
+
+myCountedSet.remove(.dwarvish)
+print(myCountedSet[.dwarvish]) // 0
+
+myCountedSet.remove(.magic)
+print(myCountedSet[.magic]) // 0
+
