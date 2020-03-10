@@ -29,11 +29,33 @@ extension CountedSet {
     }
 }
 
-//enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
-//var aCountedSet = CountedSet<Arrow>()
-//aCountedSet[.iron] // 0
-//var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron]
-//myCountedSet[.iron] // 4
-//myCountedSet.remove(.iron) // 3
-//myCountedSet.remove(.dwarvish) // 0
-//myCountedSet.remove(.magic) // 0
+// Add count, returning the number of unique elements in the counted set and isEmpty for when count is zero.
+
+extension CountedSet {
+    var count: Int? {
+        if storage.count == 0 {
+            return nil
+        }
+        return storage.count
+    }
+}
+
+// Conform to ExpressiblyByArrayLiteral
+
+extension CountedSet: ExpressibleByArrayLiteral {
+    typealias ArrayLiteralElement = Element
+    init(arrayLiteral elements: Element...) {
+        for element in elements {
+            storage[element] = (storage[element] ?? 0) + 1
+        }
+    }
+}
+
+enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
+var aCountedSet = CountedSet<Arrow>()
+aCountedSet[.iron] // 0
+var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron]
+myCountedSet[.iron] // 4
+myCountedSet.remove(.iron) // 3
+myCountedSet.remove(.dwarvish) // 0
+myCountedSet.remove(.magic) // 0
