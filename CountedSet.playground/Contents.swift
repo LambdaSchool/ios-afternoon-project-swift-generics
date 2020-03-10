@@ -60,7 +60,7 @@ let test = CountedSet(elements: [2,6,7,77,7])
 let test2 = CountedSet(elements: ["Nick","Hello"])
 
 
-
+//MARK:- ExpressibleByArrayLiteral
 extension CountedSet: ExpressibleByArrayLiteral {
     typealias ArrayLiteralElement = Element
     
@@ -82,3 +82,10 @@ myCountedSet.remove(.iron) // 3
 myCountedSet.remove(.dwarvish) // 0
 myCountedSet.remove(.magic) // 0
 myCountedSet.insert(element: .elven)
+//MARK:- Sequence
+extension CountedSet: Sequence {
+     func makeIterator() -> DictionaryIterator<Element, Int> {
+        return storage.makeIterator()
+    }
+}
+//MARK:- 
