@@ -38,9 +38,9 @@ struct CountedSet<Element: Hashable> {
         }
     }
 
-//    func contains(_ item: Element) -> Bool {
-//        return dict.keys.contains(item)
-//    }
+    func contains(_ item: Element) -> Bool {
+        return dict.keys.contains(item)
+    }
 
     //subscripting to lookup current values
     subscript(_ member: Element) -> Int {
