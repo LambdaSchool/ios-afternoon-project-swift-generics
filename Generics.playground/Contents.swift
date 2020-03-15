@@ -2,7 +2,7 @@ import UIKit
 
 
 // Creates generic CountedSet struct that is contrained to Hashable elements
-struct CountedSet<Element: Hashable> {
+struct CountedSet<Element: Hashable> : Equatable {
     
     //Private dict property for backing storage for set members and their counts
     private var dict: [Element: Int] = [:]
@@ -37,7 +37,8 @@ struct CountedSet<Element: Hashable> {
             dict.removeValue(forKey: item)
         }
     }
-
+    
+    // tests whether set contains a given item
     func contains(_ item: Element) -> Bool {
         return dict.keys.contains(item)
     }
@@ -73,4 +74,14 @@ myCountedSet[.iron] // 4
 myCountedSet.remove(.iron) // 3
 myCountedSet.remove(.dwarvish) // 0
 myCountedSet.remove(.magic) // 0
+
+// MARK:- Testing
+myCountedSet.insert(.magic)
+myCountedSet.insert(.iron)
+print(myCountedSet[.magic])
+print(myCountedSet.count)
+print(myCountedSet.contains(.iron))
+print(myCountedSet.contains(.magic))
+print(myCountedSet.contains(.silver))
+
 
