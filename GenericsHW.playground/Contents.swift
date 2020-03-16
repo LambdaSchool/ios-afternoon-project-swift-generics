@@ -49,9 +49,31 @@ struct CountedSet<Element: Hashable> {
         }
     }
 }
+//ExpressibleByArrayLiteral
+//
+extension CountedSet: ExpressibleByArrayLiteral {
+    typealias ArrayLiteralElement = Element
+    
+    init(arrayLiteral elements: Self.ArrayLiteralElement...) {
+        for element in elements {
+            self.insert(element)
+        }
+    }
+}
 
-//extension CountedSet: ExpressibleByArrayLiteral {
-//    typealias ArrayLiteralElement =
-//
-//
-//}
+// Enum for supported Values
+enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
+var aCountedSet = CountedSet<Arrow>()
+aCountedSet[.iron] // 0
+var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron]
+myCountedSet[.iron] // 4
+myCountedSet.remove(.iron) // 3
+myCountedSet.remove(.dwarvish) // 0
+myCountedSet.remove(.magic) // 0
+
+
+myCountedSet.insert(.iron)
+myCountedSet.insert(.dwarvish)
+print(myCountedSet[.iron])
+print(myCountedSet.count)
+ 
