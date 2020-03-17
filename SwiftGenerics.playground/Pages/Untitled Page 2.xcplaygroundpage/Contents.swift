@@ -14,7 +14,7 @@ struct CountedSet<Element: Hashable> {
         if let elementCount = elementDictionary[element] {
             elementDictionary[element] = elementCount + 1
         } else {
-            elementDictionary[element] = 0
+            elementDictionary[element] = 1
         }
     }
     
