@@ -33,7 +33,7 @@ struct CountedSet<Element: Hashable> {
     //    Support subscripting to look up current values (by implementing subscript(_ member: Element) -> Int). Return 0 for any value that is not found.
     subscript(index: Element) -> Int {
         get {
-            return dictionary[index]!
+            return dictionary[index] ?? 0
         }
         set(count){
             dictionary[index]! = count
