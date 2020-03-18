@@ -1,17 +1,47 @@
 import Foundation
 
-struct CountedSet<Element: Hashable>: ExpressibleByArrayLiteral {
-    init(arrayLiteral elements: Element...) {
-        let elementArray: [Element] = []
-        return elementArray
+struct CountedSet<Element: Hashable> {
+    
+    private var internalArray: [Element : Int] = [:]
+
+    var count: Int {
+        return internalArray.count
+    }
+
+    mutating func insert(_ element: Element) {
+        if internalArray.keys.contains(element) { // does not have access to below "contains" because it's not of type CountedSet
+            if let number = internalArray[element] {
+                internalArray[element] = number + 1
+            }
+        } else {
+            internalArray[element] = 1
+        }
     }
     
-    typealias ArrayLiteralElement = Element
+    func contains(_ item: Element) -> Bool {
+        return internalArray.keys.contains(item)
+    }
     
-    var member: Element
-    var count: Int
-    private var dictionaryOfSetsAndTheNumberOfElementsEachOneHas: Dictionary<Element, Int> = [:] // [ setName : countOfElements]
+    mutating func remove(_ element: Element) -> Int{
+        if let number = internalArray[element], number > 1 {
+            internalArray[element] = number - 1
+        } else {
+            internalArray.removeValue(forKey: element)
+        }
+        return internalArray[element] ?? 0
+    }
+    
+    subscript(_ member: Element) -> Int {
+        return internalArray[member] ?? 0
+    }
+}
 
+extension CountedSet: ExpressibleByArrayLiteral {
+    init(arrayLiteral elements: Element...) {
+        for element in elements {
+            self.insert(element)
+        }
+    }
 }
 /*
  Generics Challenge
@@ -32,15 +62,17 @@ Conform to ExpressibleByArrayLiteral
 As demonstrated in class, conform your set to ExpressibleByArrayLiteral so you can initialize a counted set using an array of same-type items.
 
 Your implementation should support the following interaction style:
-
-enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
+*/
+enum Arrow { case iron, wooden, elven, dwarvish, magic, silver, blue }
 var aCountedSet = CountedSet<Arrow>()
 aCountedSet[.iron] // 0
-var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron]
+var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron, .blue]
 myCountedSet[.iron] // 4
 myCountedSet.remove(.iron) // 3
 myCountedSet.remove(.dwarvish) // 0
 myCountedSet.remove(.magic) // 0
+
+/*
 Test
 
 Run the project and make sure everything works. Create a good suite of tests that check for boundary conditions and many different types.
