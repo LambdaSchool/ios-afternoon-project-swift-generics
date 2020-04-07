@@ -100,6 +100,8 @@ cs.count
 cs.contains("World")
 cs.insert("Goodbye")
 
+
+// Testing Equatable == Stretch
 var CountedSet1: CountedSet<Int> = [1, 2, 3]
 var CountedSet2: CountedSet<Int> = [1, 2, 3]
 print(CountedSet1 == CountedSet2)
