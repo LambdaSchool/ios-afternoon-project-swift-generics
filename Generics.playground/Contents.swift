@@ -83,6 +83,15 @@ struct CountedSet<Element: Hashable> {
         return result
     }
     
+    func isDisjoint(_ otherSet: CountedSet) -> Bool {
+        for element in otherSet {
+            if contains(element) {
+                return false
+            }
+        }
+        return true
+    }
+    
     var count: Int { store.count }
     var isEmpty: Bool { store.isEmpty }
     
@@ -148,3 +157,7 @@ var otherStrings: CountedSet<String> = ["a", "c", "e", "g", "h"]
 var intersection = countedStrings.intersection(with: otherStrings)
 
 intersection.subtract(otherStrings)
+intersection.isDisjoint(countedStrings)
+let newStrings: CountedSet<String> = ["x", "y", "z"]
+
+intersection.isDisjoint(newStrings)
