@@ -1,6 +1,6 @@
 import Cocoa
 
-struct CountedSet<Element: Hashable>: ExpressibleByArrayLiteral {
+struct CountedSet<Element: Hashable> {
     
     private var memCount: [Element : Int]
     var isEmpty: Bool {
@@ -21,7 +21,7 @@ struct CountedSet<Element: Hashable>: ExpressibleByArrayLiteral {
         }
     }
     
-    mutating func remove(for member: Element) {
+    mutating func remove(_ member: Element) {
         if memCount[member] == nil {
             memCount[member] = 1
         } else {
@@ -30,17 +30,34 @@ struct CountedSet<Element: Hashable>: ExpressibleByArrayLiteral {
     }
     
     subscript(_ member: Element) -> Int {
-        return memCount[member] ?? 0
+        get {
+            return memCount[member] ?? 0
+        }
+        set(newValue) {
+            insert(member: member)
+        }
     }
     
-    // MARK: - ExpressibleByArrayLiteral
     
-    typealias ArrayLiteralElement = Element
+}
+
+extension CountedSet: ExpressibleByArrayLiteral {
+    // MARK: - ExpressibleByArrayLiteral
     
     init(arrayLiteral elements: Element...) {
         self.init()
         for element in elements {
-            memCount[element] = 0
+            insert(member: element)
         }
     }
 }
+
+
+enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
+var aCountedSet = CountedSet<Arrow>()
+aCountedSet[.iron] // 0
+var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron]
+myCountedSet[.iron] // 4
+myCountedSet.remove(.iron) // 3
+myCountedSet.remove(.dwarvish) // 0
+myCountedSet.remove(.magic) // 0
