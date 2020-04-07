@@ -50,6 +50,14 @@ struct CountedSet<Element:Hashable>: ExpressibleByArrayLiteral {
     var isEmpty: Bool {
         return storage.isEmpty
     }
+    
+    func contains(_ member: Element) -> Bool {
+        if countValues(member) == 0 {
+            return false
+        } else {
+            return true
+        }
+    }
         
     subscript(_ member: Element) -> Int {
         return storage[member] ?? 0
@@ -67,3 +75,15 @@ myCountedSet.remove(.dwarvish) // 0
 myCountedSet.remove(.magic) // 0
 myCountedSet.isEmpty
 myCountedSet.count
+
+var cs = CountedSet<String>()
+cs = ["Hello", "World"]
+cs["Hello"]
+cs.count
+cs.isEmpty
+cs.insert("Hello")
+cs.count
+cs["Hello"]
+cs.remove("World")
+cs.count
+cs.contains("World")
