@@ -43,6 +43,14 @@ struct CountedSet<Element: Hashable> {
         }
     }
     
+    func unioned(with countedSet: CountedSet) -> CountedSet<Element> {
+        var result = self
+        for element in countedSet {
+            result.increment(element, by: countedSet[element])
+        }
+        return result
+    }
+    
     var count: Int { store.count }
     var isEmpty: Bool { store.isEmpty }
     
@@ -100,3 +108,4 @@ var countedNums: CountedSet<Int> = [1, 1, 2, 3]
 var otherNums: CountedSet<Int> = [3, 3, 4, 5]
 
 countedNums.union(with: otherNums)
+let someNums = countedNums.unioned(with: otherNums)
