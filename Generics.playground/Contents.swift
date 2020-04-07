@@ -66,7 +66,6 @@ struct CountedSet<Element: Hashable> {
                 result.increment(element, by: otherSet[element] + count)
             }
         }
-        
         return result
     }
     
@@ -74,6 +73,14 @@ struct CountedSet<Element: Hashable> {
         for element in otherSet {
             decrement(element, by: otherSet[element])
         }
+    }
+    
+    func subtracting(_ otherSet: CountedSet) -> CountedSet {
+        var result = self
+        for element in otherSet {
+            result.decrement(element, by: otherSet[element])
+        }
+        return result
     }
     
     var count: Int { store.count }
