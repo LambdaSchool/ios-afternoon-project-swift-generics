@@ -100,7 +100,7 @@ struct CountedSet<Element: Hashable> {
     private var store: [Element: Int] = [:]
 }
 
-// MARK: - Array Literal Protocol
+// MARK: - Array Literal Expressible Confromance
 
 extension CountedSet: ExpressibleByArrayLiteral {
     init(arrayLiteral: Element...) {
@@ -111,7 +111,7 @@ extension CountedSet: ExpressibleByArrayLiteral {
     }
 }
 
-// MARK: - Sequence Protocol
+// MARK: - Sequence Conformance
 
 extension CountedSet: Sequence {
     __consuming func makeIterator() -> Iterator {
@@ -127,6 +127,22 @@ extension CountedSet: Sequence {
             defer { index += 1 }
             return elements[index]
         }
+    }
+}
+
+// MARK: - Equatable Conformance
+
+extension CountedSet: Equatable {
+    static func == (lhs: CountedSet, rhs: CountedSet) -> Bool {
+        guard lhs.store.keys == rhs.store.keys else { return false }
+        
+        for element in lhs {
+            if lhs[element] != rhs[element] {
+                return false
+            }
+        }
+        
+        return true
     }
 }
 
@@ -159,5 +175,8 @@ var intersection = countedStrings.intersection(with: otherStrings)
 intersection.subtract(otherStrings)
 intersection.isDisjoint(countedStrings)
 let newStrings: CountedSet<String> = ["x", "y", "z"]
-
+let sameStrings: CountedSet<String> = ["x", "y", "z"]
 intersection.isDisjoint(newStrings)
+
+newStrings == sameStrings
+newStrings == countedStrings
