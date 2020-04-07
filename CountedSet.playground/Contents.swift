@@ -64,12 +64,13 @@ struct CountedSet<Element:Hashable>: ExpressibleByArrayLiteral, Equatable {
         }
     }
     
-    mutating func union(_ list: Set<Element>) {
+    mutating func union(_ list: Set<Element>) -> [Element : Int] {
         for item in list {
             insert(item)
         }
+        return storage
     }
-        
+    
     subscript(_ member: Element) -> Int {
         return storage[member] ?? 0
     }
@@ -99,7 +100,8 @@ cs.remove("World")
 cs.count
 cs.contains("World")
 cs.insert("Goodbye")
-
+let aSet: Set = ["Union", "Test"]
+cs.union(aSet)
 
 // Testing Equatable == Stretch
 var CountedSet1: CountedSet<Int> = [1, 2, 3]
