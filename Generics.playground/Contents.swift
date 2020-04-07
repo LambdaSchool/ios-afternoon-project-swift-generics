@@ -11,6 +11,16 @@ struct CountedSet<Element: Hashable> {
         }
     }
     
+    mutating func remove(_ element: Element) {
+        if let count = store[element] {
+            if count > 1 {
+                store[element] = count - 1
+            } else {
+                store.removeValue(forKey: element)
+            }
+        }
+    }
+    
     mutating func increment(_ element: Element, by amount: Int) {
         if let count = store[element] {
             store[element] = count + amount
@@ -19,13 +29,11 @@ struct CountedSet<Element: Hashable> {
         }
     }
     
-    mutating func remove(_ element: Element) {
-        if let count = store[element] {
-            if count > 1 {
-                store[element] = count - 1
-            } else {
-                store.removeValue(forKey: element)
-            }
+    mutating func decrement(_ element: Element, by amount: Int) {
+        if let count = store[element], count > amount {
+            store[element] = count - amount
+        } else {
+            store.removeValue(forKey: element)
         }
     }
     
@@ -39,7 +47,7 @@ struct CountedSet<Element: Hashable> {
     
     mutating func union(with otherSet: CountedSet) {
         for element in otherSet {
-            self.increment(element, by: otherSet[element])
+            increment(element, by: otherSet[element])
         }
     }
     
@@ -60,6 +68,12 @@ struct CountedSet<Element: Hashable> {
         }
         
         return result
+    }
+    
+    mutating func subtract(_ otherSet: CountedSet) {
+        for element in otherSet {
+            decrement(element, by: otherSet[element])
+        }
     }
     
     var count: Int { store.count }
@@ -124,4 +138,6 @@ let someNums = countedNums.unioned(with: otherNums)
 var countedStrings: CountedSet<String> = ["a", "a", "b", "c", "d"]
 var otherStrings: CountedSet<String> = ["a", "c", "e", "g", "h"]
 
-let intersection = countedStrings.intersection(with: otherStrings)
+var intersection = countedStrings.intersection(with: otherStrings)
+
+intersection.subtract(otherStrings)
