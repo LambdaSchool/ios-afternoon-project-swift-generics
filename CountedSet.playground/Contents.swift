@@ -3,7 +3,12 @@ import Cocoa
 
 
 
-struct CountedSet<Element:Hashable>: ExpressibleByArrayLiteral {
+struct CountedSet<Element:Hashable>: ExpressibleByArrayLiteral, Equatable {
+    
+    static func == (lhs: CountedSet, rhs: CountedSet) -> Bool {
+        return lhs.storage == rhs.storage
+    }
+    
     init(arrayLiteral elements: Element...) {
         for element in elements {
             let elementCount = countValues(element)
@@ -58,6 +63,12 @@ struct CountedSet<Element:Hashable>: ExpressibleByArrayLiteral {
             return true
         }
     }
+    
+    mutating func union(_ list: Set<Element>) {
+        for item in list {
+            insert(item)
+        }
+    }
         
     subscript(_ member: Element) -> Int {
         return storage[member] ?? 0
@@ -87,3 +98,11 @@ cs["Hello"]
 cs.remove("World")
 cs.count
 cs.contains("World")
+cs.insert("Goodbye")
+
+var CountedSet1: CountedSet<Int> = [1, 2, 3]
+var CountedSet2: CountedSet<Int> = [1, 2, 3]
+print(CountedSet1 == CountedSet2)
+CountedSet1.insert(1)
+print(CountedSet1 == CountedSet2)
+
