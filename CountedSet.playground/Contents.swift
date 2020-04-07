@@ -6,7 +6,7 @@ import Cocoa
 struct CountedSet<Element:Hashable>: ExpressibleByArrayLiteral {
     init(arrayLiteral elements: Element...) {
         for element in elements {
-            let elementCount = count(element)
+            let elementCount = countValues(element)
             if elementCount == 0 {
                 storage[element] = 1
             } else {
@@ -19,7 +19,7 @@ struct CountedSet<Element:Hashable>: ExpressibleByArrayLiteral {
     private(set) var storage: [Element : Int] = [:]
     
     mutating func insert(_ member: Element) {
-        let elementCount = count(member)
+        let elementCount = countValues(member)
         if elementCount == 0 {
             storage[member] = 1
         } else {
@@ -28,17 +28,27 @@ struct CountedSet<Element:Hashable>: ExpressibleByArrayLiteral {
     }
     
     mutating func remove(_ member: Element) -> Int {
-        let elementCount = count(member)
-        if elementCount == 0 {
+        let elementCount = countValues(member)
+        if elementCount == 1 {
             storage[member] = nil
+        } else if elementCount == 0 {
+            return 0
         } else {
             storage[member] = elementCount - 1
         }
         return elementCount - 1
     }
     
-    func count(_ member: Element) -> Int {
+    func countValues(_ member: Element) -> Int {
         return storage[member] ?? 0
+    }
+    
+    var count: Int {
+        return storage.count
+    }
+    
+    var isEmpty: Bool {
+        return storage.isEmpty
     }
         
     subscript(_ member: Element) -> Int {
@@ -53,5 +63,7 @@ aCountedSet[.iron] // 0
 var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron]
 myCountedSet[.iron] // 4
 myCountedSet.remove(.iron) // 3
-//myCountedSet.remove(.dwarvish) // 0
-//myCountedSet.remove(.magic) // 0
+myCountedSet.remove(.dwarvish) // 0
+myCountedSet.remove(.magic) // 0
+myCountedSet.isEmpty
+myCountedSet.count
