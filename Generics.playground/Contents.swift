@@ -37,17 +37,28 @@ struct CountedSet<Element: Hashable> {
         }
     }
     
-    mutating func union(with countedSet: CountedSet) {
-        for element in countedSet {
-            self.increment(element, by: countedSet[element])
+    mutating func union(with otherSet: CountedSet) {
+        for element in otherSet {
+            self.increment(element, by: otherSet[element])
         }
     }
     
-    func unioned(with countedSet: CountedSet) -> CountedSet<Element> {
+    func unioned(with otherSet: CountedSet) -> CountedSet {
         var result = self
-        for element in countedSet {
-            result.increment(element, by: countedSet[element])
+        for element in otherSet {
+            result.increment(element, by: otherSet[element])
         }
+        return result
+    }
+    
+    func intersection(with otherSet: CountedSet) -> CountedSet {
+        var result = CountedSet()
+        for element in otherSet {
+            if let count = store[element] {
+                result.increment(element, by: otherSet[element] + count)
+            }
+        }
+        
         return result
     }
     
@@ -109,3 +120,8 @@ var otherNums: CountedSet<Int> = [3, 3, 4, 5]
 
 countedNums.union(with: otherNums)
 let someNums = countedNums.unioned(with: otherNums)
+
+var countedStrings: CountedSet<String> = ["a", "a", "b", "c", "d"]
+var otherStrings: CountedSet<String> = ["a", "c", "e", "g", "h"]
+
+let intersection = countedStrings.intersection(with: otherStrings)
