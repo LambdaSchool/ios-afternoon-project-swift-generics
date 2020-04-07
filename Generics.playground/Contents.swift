@@ -37,6 +37,8 @@ struct CountedSet<Element: Hashable> {
     private var store: [Element: Int] = [:]
 }
 
+// MARK: - Array Literal Protocol Conformance
+
 extension CountedSet: ExpressibleByArrayLiteral {
     init(arrayLiteral: Element...) {
         self.init()
@@ -46,6 +48,28 @@ extension CountedSet: ExpressibleByArrayLiteral {
     }
 }
 
+extension CountedSet: Sequence {
+    __consuming func makeIterator() -> Iterator {
+        let iterator = Iterator(elements: Array(store.keys))
+        return iterator
+    }
+    
+    struct Iterator: IteratorProtocol {
+        var index = 0
+        let elements: [Element]
+        mutating func next() -> Element? {
+            defer {
+                index += 1
+            }
+            return elements[index]
+        }
+    }
+}
+
+
+
+
+
 enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
 var aCountedSet = CountedSet<Arrow>()
 aCountedSet[.iron] // 0
@@ -54,3 +78,6 @@ myCountedSet[.iron] // 4
 myCountedSet.remove(.iron) // 3
 myCountedSet.remove(.dwarvish) // 0
 myCountedSet.remove(.magic) // 0
+
+myCountedSet.contains(.iron)
+
