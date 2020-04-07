@@ -5,10 +5,16 @@ import Cocoa
 
 struct CountedSet<Element:Hashable>: ExpressibleByArrayLiteral {
     init(arrayLiteral elements: Element...) {
-        //
+        for element in elements {
+            let elementCount = count(element)
+            if elementCount == 0 {
+                storage[element] = 1
+            } else {
+                storage[element] = elementCount + 1
+            }
+        }
     }
     typealias ArrayLiteralElement = Element
-    
     
     private(set) var storage: [Element : Int] = [:]
     
@@ -16,14 +22,15 @@ struct CountedSet<Element:Hashable>: ExpressibleByArrayLiteral {
         
     }
     
-    func remove() {
+    func remove(_ member: Element) -> Int {
         
+        return 1
     }
     
-    func count() {
-    
+    func count(_ member: Element) -> Int {
+        return storage[member] ?? 0
     }
-    
+        
     subscript(_ member: Element) -> Int {
         return storage[member] ?? 0
     }
@@ -35,6 +42,6 @@ var aCountedSet = CountedSet<Arrow>()
 aCountedSet[.iron] // 0
 var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron]
 myCountedSet[.iron] // 4
-//myCountedSet.remove(.iron) // 3
+myCountedSet.remove(.iron) // 3
 //myCountedSet.remove(.dwarvish) // 0
 //myCountedSet.remove(.magic) // 0
