@@ -18,13 +18,23 @@ struct CountedSet<Element:Hashable>: ExpressibleByArrayLiteral {
     
     private(set) var storage: [Element : Int] = [:]
     
-    func insert() {
-        
+    mutating func insert(_ member: Element) {
+        let elementCount = count(member)
+        if elementCount == 0 {
+            storage[member] = 1
+        } else {
+            storage[member] = elementCount + 1
+        }
     }
     
-    func remove(_ member: Element) -> Int {
-        
-        return 1
+    mutating func remove(_ member: Element) -> Int {
+        let elementCount = count(member)
+        if elementCount == 0 {
+            storage[member] = nil
+        } else {
+            storage[member] = elementCount - 1
+        }
+        return elementCount - 1
     }
     
     func count(_ member: Element) -> Int {
