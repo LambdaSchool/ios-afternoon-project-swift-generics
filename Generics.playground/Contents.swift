@@ -11,6 +11,14 @@ struct CountedSet<Element: Hashable> {
         }
     }
     
+    mutating func increment(_ element: Element, by amount: Int) {
+        if let count = store[element] {
+            store[element] = count + amount
+        } else {
+            store[element] = amount
+        }
+    }
+    
     mutating func remove(_ element: Element) {
         if let count = store[element] {
             if count > 1 {
@@ -29,6 +37,12 @@ struct CountedSet<Element: Hashable> {
         }
     }
     
+    mutating func union(with countedSet: CountedSet) {
+        for element in countedSet {
+            self.increment(element, by: countedSet[element])
+        }
+    }
+    
     var count: Int { store.count }
     var isEmpty: Bool { store.isEmpty }
     
@@ -37,7 +51,7 @@ struct CountedSet<Element: Hashable> {
     private var store: [Element: Int] = [:]
 }
 
-// MARK: - Array Literal Protocol Conformance
+// MARK: - Array Literal Protocol
 
 extension CountedSet: ExpressibleByArrayLiteral {
     init(arrayLiteral: Element...) {
@@ -47,6 +61,8 @@ extension CountedSet: ExpressibleByArrayLiteral {
         }
     }
 }
+
+// MARK: - Sequence Protocol
 
 extension CountedSet: Sequence {
     __consuming func makeIterator() -> Iterator {
@@ -80,3 +96,7 @@ myCountedSet.remove(.magic) // 0
 
 myCountedSet.contains(.iron)
 
+var countedNums: CountedSet<Int> = [1, 1, 2, 3]
+var otherNums: CountedSet<Int> = [3, 3, 4, 5]
+
+countedNums.union(with: otherNums)
