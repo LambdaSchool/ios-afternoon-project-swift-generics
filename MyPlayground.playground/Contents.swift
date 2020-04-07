@@ -2,7 +2,7 @@ import Cocoa
 
 struct CountedSet<Element: Hashable> {
     
-    private var memCount: [Element : Int]
+    private var memCount: [Element : Int] = [:]
     var isEmpty: Bool {
         if memCount.count == 0 {
             return true
@@ -13,20 +13,24 @@ struct CountedSet<Element: Hashable> {
         return memCount.count
     }
     
-    mutating func insert(member: Element) {
+    mutating func insert(member: Element) -> Int? {
         if memCount[member] == nil {
             memCount[member] = 1
         } else {
             memCount[member]! += 1
         }
+        
+        return memCount[member]
     }
     
-    mutating func remove(_ member: Element) {
+    mutating func remove(_ member: Element) -> Int? {
         if memCount[member] == nil {
-            memCount[member] = 1
+            return nil
         } else {
             memCount[member]! -= 1
         }
+        
+        return memCount[member]
     }
     
     subscript(_ member: Element) -> Int {
@@ -45,7 +49,7 @@ extension CountedSet: ExpressibleByArrayLiteral {
     // MARK: - ExpressibleByArrayLiteral
     
     init(arrayLiteral elements: Element...) {
-        self.init()
+        
         for element in elements {
             insert(member: element)
         }

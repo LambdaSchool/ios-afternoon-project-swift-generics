@@ -16,7 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		9C8E4080243D2F3B006D741E /* asd;lkfjsdalk;jlfklads;f.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "asd;lkfjsdalk;jlfklads;f.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9C8E4080243D2F3B006D741E /* Generics.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Generics.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C8E4083243D2F3B006D741E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9C8E4085243D2F3B006D741E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		9C8E4087243D2F3B006D741E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -40,7 +40,7 @@
 		9C8E4077243D2F3B006D741E = {
 			isa = PBXGroup;
 			children = (
-				9C8E4082243D2F3B006D741E /* asd;lkfjsdalk;jlfklads;f */,
+				9C8E4082243D2F3B006D741E /* Generics */,
 				9C8E4081243D2F3B006D741E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -48,12 +48,12 @@
 		9C8E4081243D2F3B006D741E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9C8E4080243D2F3B006D741E /* asd;lkfjsdalk;jlfklads;f.app */,
+				9C8E4080243D2F3B006D741E /* Generics.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		9C8E4082243D2F3B006D741E /* asd;lkfjsdalk;jlfklads;f */ = {
+		9C8E4082243D2F3B006D741E /* Generics */ = {
 			isa = PBXGroup;
 			children = (
 				9C8E4083243D2F3B006D741E /* AppDelegate.swift */,
@@ -64,15 +64,15 @@
 				9C8E408E243D2F3E006D741E /* LaunchScreen.storyboard */,
 				9C8E4091243D2F3E006D741E /* Info.plist */,
 			);
-			path = "asd;lkfjsdalk;jlfklads;f";
+			path = Generics;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		9C8E407F243D2F3B006D741E /* asd;lkfjsdalk;jlfklads;f */ = {
+		9C8E407F243D2F3B006D741E /* Generics */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9C8E4094243D2F3E006D741E /* Build configuration list for PBXNativeTarget "asd;lkfjsdalk;jlfklads;f" */;
+			buildConfigurationList = 9C8E4094243D2F3E006D741E /* Build configuration list for PBXNativeTarget "Generics" */;
 			buildPhases = (
 				9C8E407C243D2F3B006D741E /* Sources */,
 				9C8E407D243D2F3B006D741E /* Frameworks */,
@@ -82,9 +82,9 @@
 			);
 			dependencies = (
 			);
-			name = "asd;lkfjsdalk;jlfklads;f";
+			name = Generics;
 			productName = "asd;lkfjsdalk;jlfklads;f";
-			productReference = 9C8E4080243D2F3B006D741E /* asd;lkfjsdalk;jlfklads;f.app */;
+			productReference = 9C8E4080243D2F3B006D741E /* Generics.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -102,7 +102,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 9C8E407B243D2F3B006D741E /* Build configuration list for PBXProject "asd;lkfjsdalk;jlfklads;f" */;
+			buildConfigurationList = 9C8E407B243D2F3B006D741E /* Build configuration list for PBXProject "Generics" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -115,7 +115,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				9C8E407F243D2F3B006D741E /* asd;lkfjsdalk;jlfklads;f */,
+				9C8E407F243D2F3B006D741E /* Generics */,
 			);
 		};
 /* End PBXProject section */
@@ -291,7 +291,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.hectorledesma.asd-lkfjsdalk-jlfklads-f";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Generics;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -308,7 +308,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.hectorledesma.asd-lkfjsdalk-jlfklads-f";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Generics;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -317,7 +317,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		9C8E407B243D2F3B006D741E /* Build configuration list for PBXProject "asd;lkfjsdalk;jlfklads;f" */ = {
+		9C8E407B243D2F3B006D741E /* Build configuration list for PBXProject "Generics" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9C8E4092243D2F3E006D741E /* Debug */,
@@ -326,7 +326,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9C8E4094243D2F3E006D741E /* Build configuration list for PBXNativeTarget "asd;lkfjsdalk;jlfklads;f" */ = {
+		9C8E4094243D2F3E006D741E /* Build configuration list for PBXNativeTarget "Generics" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9C8E4095243D2F3E006D741E /* Debug */,
