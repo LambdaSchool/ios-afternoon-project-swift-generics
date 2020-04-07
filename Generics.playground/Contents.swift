@@ -58,9 +58,8 @@ extension CountedSet: Sequence {
         var index = 0
         let elements: [Element]
         mutating func next() -> Element? {
-            defer {
-                index += 1
-            }
+            guard index < elements.count else { return nil }
+            defer { index += 1 }
             return elements[index]
         }
     }
