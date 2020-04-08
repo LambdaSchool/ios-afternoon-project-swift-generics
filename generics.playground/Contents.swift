@@ -1,22 +1,55 @@
 import Cocoa
 
 struct CountedSet<Element: Hashable>: ExpressibleByArrayLiteral {
-    typealias ArrayLiteralElement = Self
     
-    private(set) var storageDict: [Int : Element] = [:]
-    var count: Int = 0
-    var isEmpty: Bool = true
-    
-    func insert(_ element: Element) {
-        
+    init(arrayLiteral elements: Element...) {
+        for element in elements {
+            insert(element)
+        }
     }
     
-    func remove(_ element: Element) {
-        
+    typealias ArrayLiteralElement = Element
+    
+    private var storageDict: [Element : Int] = [:]
+    var count: Int {
+        return storageDict.count
+    }
+    var isEmpty: Bool {
+        return storageDict.isEmpty
     }
     
-    func subscript(_ member: Element) -> Int {
-        
+    mutating func insert(_ element: Element) {
+        if storageDict.keys.contains(element) {
+            storageDict[element]! += 1
+        } else {
+            storageDict[element] = 1
+        }
+    }
+    
+    mutating func remove(_ element: Element) {
+        if storageDict.keys.contains(element), storageDict[element]! > 1 {
+            storageDict[element]! -= 1
+        } else {
+            storageDict[element] = nil
+        }
+    }
+    
+    subscript(_ member: Element) -> Int {
+        if let num = storageDict[member] {
+            return num
+        } else {
+            return 0
+        }
     }
     
 }
+
+enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
+var aCountedSet = CountedSet<Arrow>()
+aCountedSet[.iron] // 0
+var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron]
+myCountedSet[.iron] // 4
+myCountedSet.remove(.iron) // 3
+myCountedSet.remove(.dwarvish) // 0
+myCountedSet.remove(.magic) // 0
+
