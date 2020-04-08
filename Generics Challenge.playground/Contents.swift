@@ -2,37 +2,55 @@
 
 struct CountedSet<Element: Hashable> {
     
-    private(set) var dict: [Element: Int] = [:]
+    /* private(set) */ var dict: [Element: Int] = [:] // FIXME:
     
-    subscript(_ member: Element) -> Int {
+    subscript(_ key: Element) -> Int {
         set {
-            print( newValue )
+            dict[key] = newValue
         }
         get {
-            if let count = dict[member] {
+            if let count = dict[key] {
                 return count
             }
             return 0
         }
     }
     
+    var count: Int {
+        dict.count
+    }
+
+    var isEmpty: Bool {
+        return dict.count > 0 ? false : true
+    }
+    
+    func insert(_ key: Element) {
+        
+    }
+
+    func remove(_ key: Element) {
+        
+    }
 }
 
-//extension CountedSet: ExpressibleByArrayLiteral {
-//    init(arrayLiteral: Element...) {
-//        self.init()
-//        for element in arrayLiteral {
-//            self.dict[element] = 1
-//        }
-//    }
-//}
+extension CountedSet: ExpressibleByArrayLiteral {
+    init(arrayLiteral: Element...) {
+        self.init()
+        for element in arrayLiteral {
+            self.dict[element] = (self.dict[element] ?? 0) + 1
+        }
+    }
+}
 
 enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
 var aCountedSet = CountedSet<Arrow>()
-aCountedSet[.iron] // 0
+assert(aCountedSet.isEmpty == true, "aCountedSet should have been true")
+assert(aCountedSet[.iron] == 0, "Result should have been 0")
 aCountedSet[.iron] = 5
-//var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron]
-//myCountedSet[.iron] // 4
-//myCountedSet.remove(.iron) // 3
+assert(aCountedSet[.iron] == 5, "Result should have been 5")
+var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron]
+myCountedSet.count
+assert(myCountedSet[.iron] == 4, ".iron count should be 4")
+assert(myCountedSet.remove(.iron) // 3
 //myCountedSet.remove(.dwarvish) // 0
 //myCountedSet.remove(.magic) // 0
