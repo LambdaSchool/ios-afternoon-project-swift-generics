@@ -167,7 +167,7 @@ assert(letters["a"] == 10, "Increment failed")
 letters.decrement("a", by: 5)
 assert(letters["a"] == 5, "Decrement failed")
 
-// Union
+// Unioned & Union
 assert(letterA.unioned(with: lettersBC) == lettersABC, "Unioned failed")
 
 letters = letterA
@@ -179,8 +179,12 @@ letters = lettersABC
 let intersection = letters.intersection(with: lettersBC)
 assert(intersection == lettersBC, "Intersection failed")
 
-// Subtracting
+// Subtracting & Subtract
 assert(lettersABC.subtracting(lettersBC) == letterA, "Subtracting failed")
+
+letters = lettersABC
+letters.subtract(letterA)
+assert(letters == lettersBC, "Subtract failed")
 
 // isDisjoint
 assert(letterA.isDisjoint(lettersBC), "isDisjoint failed")
@@ -201,7 +205,9 @@ var string = ""
 for letter in lettersABC {
     string.append(letter)
 }
-assert(string == "abc", "Iteration failed")
+
+assert(String(string.sorted()) == "abc", "Iteration failed")
+
 
 // MARK: - Given Examples
 
