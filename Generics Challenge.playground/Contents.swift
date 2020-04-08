@@ -39,6 +39,11 @@ struct CountedSet<Element: Hashable> {
         
         return item
     }
+    
+    func contains(_ key: Element) -> Bool {
+        guard let _ = dict[key] else { return false }
+        return true
+    }
 }
 
 extension CountedSet: ExpressibleByArrayLiteral {
@@ -62,6 +67,8 @@ assert(myCountedSet.count == 3, "Expected 3 items in set")
 assert(myCountedSet[.iron] == 4, ".iron count should be 4")
 assert(myCountedSet.remove(.iron) == 3, ".iron count should be 3")
 assert(myCountedSet.remove(.dwarvish) == 0, ".dwarvish shouldn't exist")
+assert(myCountedSet.contains(.magic) == true, ".magic should be in the set")
 assert(myCountedSet.remove(.magic) == 0, "Should have been the last .magic")
+assert(myCountedSet.contains(.magic) == false, ".magic shouldn't be in the set")
 /// Reducing magic to zero means magic is removed and count is reduced by 1
 assert(myCountedSet.count == 2, "count should be 2")
