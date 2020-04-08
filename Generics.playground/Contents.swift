@@ -62,8 +62,8 @@ struct CountedSet<Element: Hashable> {
     func intersection(with otherSet: CountedSet) -> CountedSet {
         var result = CountedSet()
         for element in otherSet {
-            if let count = store[element] {
-                result.increment(element, by: otherSet[element] + count)
+            if let count = store[element], count == otherSet[element] {
+                result.increment(element, by: count)
             }
         }
         return result
@@ -149,6 +149,29 @@ extension CountedSet: Equatable {
 
 
 
+var letters: CountedSet<String> = []
+
+letters.insert("a")
+assert(letters["a"] == 1, "Insert failed")
+
+letters.remove("a")
+assert(letters["a"] == 0, "Remove failed")
+
+letters.increment("a", by: 10)
+assert(letters["a"] == 10, "Increment failed")
+
+letters.decrement("a", by: 9)
+assert(letters["a"] == 1, "Decrement failed")
+
+let lettersBC: CountedSet<String> = ["b", "c"]
+let lettersABC: CountedSet<String> = ["a", "b", "c"]
+assert(letters.unioned(with: lettersBC) == lettersABC, "Unioned failed")
+
+letters.union(with: lettersBC)
+assert(letters == lettersABC, "Union failed")
+
+let intersection = letters.intersection(with: lettersBC)
+assert(intersection == lettersBC, "Intersection failed")
 
 enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
 var aCountedSet = CountedSet<Arrow>()
@@ -161,22 +184,3 @@ myCountedSet.remove(.magic) // 0
 
 myCountedSet.contains(.iron)
 
-var countedNums: CountedSet<Int> = [1, 1, 2, 3]
-var otherNums: CountedSet<Int> = [3, 3, 4, 5]
-
-countedNums.union(with: otherNums)
-let someNums = countedNums.unioned(with: otherNums)
-
-var countedStrings: CountedSet<String> = ["a", "a", "b", "c", "d"]
-var otherStrings: CountedSet<String> = ["a", "c", "e", "g", "h"]
-
-var intersection = countedStrings.intersection(with: otherStrings)
-
-intersection.subtract(otherStrings)
-intersection.isDisjoint(countedStrings)
-let newStrings: CountedSet<String> = ["x", "y", "z"]
-let sameStrings: CountedSet<String> = ["x", "y", "z"]
-intersection.isDisjoint(newStrings)
-
-newStrings == sameStrings
-newStrings == countedStrings
