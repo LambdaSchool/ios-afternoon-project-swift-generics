@@ -2,7 +2,7 @@
 
 struct CountedSet<Element: Hashable> {
     
-    /* private(set) */ var dict: [Element: Int] = [:] // FIXME:
+    private(set) var dict: [Element: Int] = [:]
     
     subscript(_ key: Element) -> Int {
         set {
@@ -28,8 +28,16 @@ struct CountedSet<Element: Hashable> {
         
     }
 
-    func remove(_ key: Element) {
+    mutating func remove(_ key: Element) -> Int {
+        guard var item = dict[key] else { return 0 }
         
+        item -= 1
+        
+        if item == 0 {
+            dict[key] = nil
+        }
+        
+        return item
     }
 }
 
@@ -44,13 +52,16 @@ extension CountedSet: ExpressibleByArrayLiteral {
 
 enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
 var aCountedSet = CountedSet<Arrow>()
-assert(aCountedSet.isEmpty == true, "aCountedSet should have been true")
-assert(aCountedSet[.iron] == 0, "Result should have been 0")
+assert(aCountedSet.isEmpty == true, "aCountedSet should have been empty")
+assert(aCountedSet[.iron] == 0, ".iron should not exist")
 aCountedSet[.iron] = 5
 assert(aCountedSet[.iron] == 5, "Result should have been 5")
+
 var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron]
-myCountedSet.count
+assert(myCountedSet.count == 3, "Expected 3 items in set")
 assert(myCountedSet[.iron] == 4, ".iron count should be 4")
-assert(myCountedSet.remove(.iron) // 3
-//myCountedSet.remove(.dwarvish) // 0
-//myCountedSet.remove(.magic) // 0
+assert(myCountedSet.remove(.iron) == 3, ".iron count should be 3")
+assert(myCountedSet.remove(.dwarvish) == 0, ".dwarvish shouldn't exist")
+assert(myCountedSet.remove(.magic) == 0, "Should have been the last .magic")
+/// Reducing magic to zero means magic is removed and count is reduced by 1
+assert(myCountedSet.count == 2, "count should be 2")
