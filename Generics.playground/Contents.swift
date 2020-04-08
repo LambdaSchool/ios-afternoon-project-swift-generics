@@ -144,32 +144,66 @@ extension CountedSet: Equatable {
     }
 }
 
+// MARK: - Tests
 
+let emptySet: CountedSet<String> = []
+let letterA: CountedSet<String> = ["a"]
+let lettersBC: CountedSet<String> = ["b", "c"]
+let lettersABC: CountedSet<String> = ["a", "b", "c"]
 
+var letters = emptySet
 
-var letters: CountedSet<String> = []
-
+// Insert & Remove
 letters.insert("a")
-assert(letters["a"] == 1, "Insert failed")
+assert(letters == letterA, "Insert failed")
 
 letters.remove("a")
-assert(letters["a"] == 0, "Remove failed")
+assert(letters == emptySet, "Remove failed")
 
+// Increment & Decrement
 letters.increment("a", by: 10)
 assert(letters["a"] == 10, "Increment failed")
 
-letters.decrement("a", by: 9)
-assert(letters["a"] == 1, "Decrement failed")
+letters.decrement("a", by: 5)
+assert(letters["a"] == 5, "Decrement failed")
 
-let lettersBC: CountedSet<String> = ["b", "c"]
-let lettersABC: CountedSet<String> = ["a", "b", "c"]
-assert(letters.unioned(with: lettersBC) == lettersABC, "Unioned failed")
+// Union
+assert(letterA.unioned(with: lettersBC) == lettersABC, "Unioned failed")
 
+letters = letterA
 letters.union(with: lettersBC)
 assert(letters == lettersABC, "Union failed")
 
+// Intersection
+letters = lettersABC
 let intersection = letters.intersection(with: lettersBC)
 assert(intersection == lettersBC, "Intersection failed")
+
+// Subtracting
+assert(lettersABC.subtracting(lettersBC) == letterA, "Subtracting failed")
+
+// isDisjoint
+assert(letterA.isDisjoint(lettersBC), "isDisjoint failed")
+assert(letterA.isDisjoint(lettersABC) == false, "isDisjoint failed")
+
+// Count & isEmpty
+letters = emptySet
+assert(letters.count == 0, "Count failed")
+assert(letters.isEmpty, "isEmpty failed")
+
+letters = lettersABC
+assert(letters.count == 3, "Count failed")
+assert(letters.isEmpty == false, "isEmpty failed")
+
+// Iteration
+
+var string = ""
+for letter in lettersABC {
+    string.append(letter)
+}
+assert(string == "abc", "Iteration failed")
+
+// MARK: - Given Examples
 
 enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
 var aCountedSet = CountedSet<Arrow>()
