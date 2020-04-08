@@ -45,18 +45,18 @@ struct CountedSet<Element: Hashable> {
         }
     }
     
-    mutating func union(with otherSet: CountedSet) {
-        for element in otherSet {
-            self.increment(element, by: otherSet[element])
-        }
-    }
-    
     func unioned(with otherSet: CountedSet) -> CountedSet {
         var result = self
         for element in otherSet {
             result.increment(element, by: otherSet[element])
         }
         return result
+    }
+    
+    mutating func union(with otherSet: CountedSet) {
+        for element in otherSet {
+            self.increment(element, by: otherSet[element])
+        }
     }
     
     func intersection(with otherSet: CountedSet) -> CountedSet {
@@ -69,10 +69,8 @@ struct CountedSet<Element: Hashable> {
         return result
     }
     
-    mutating func subtract(_ otherSet: CountedSet) {
-        for element in otherSet {
-            self.decrement(element, by: otherSet[element])
-        }
+    mutating func intersect(with otherSet: CountedSet) {
+        self = intersection(with: otherSet)
     }
     
     func subtracting(_ otherSet: CountedSet) -> CountedSet {
@@ -81,6 +79,12 @@ struct CountedSet<Element: Hashable> {
             result.decrement(element, by: otherSet[element])
         }
         return result
+    }
+    
+    mutating func subtract(_ otherSet: CountedSet) {
+        for element in otherSet {
+            self.decrement(element, by: otherSet[element])
+        }
     }
     
     func isDisjoint(_ otherSet: CountedSet) -> Bool {
@@ -174,10 +178,12 @@ letters = letterA
 letters.union(with: lettersBC)
 assert(letters == lettersABC, "Union failed")
 
-// Intersection
+// Intersection & Intersect
+assert(lettersABC.intersection(with: lettersBC) == lettersBC, "Intersection failed")
+
 letters = lettersABC
-let intersection = letters.intersection(with: lettersBC)
-assert(intersection == lettersBC, "Intersection failed")
+letters.intersect(with: lettersBC)
+assert(letters == lettersBC, "Intersect failed")
 
 // Subtracting & Subtract
 assert(lettersABC.subtracting(lettersBC) == letterA, "Subtracting failed")
@@ -200,7 +206,6 @@ assert(letters.count == 3, "Count failed")
 assert(letters.isEmpty == false, "isEmpty failed")
 
 // Iteration
-
 var string = ""
 for letter in lettersABC {
     string.append(letter)
