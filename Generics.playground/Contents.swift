@@ -47,7 +47,7 @@ struct CountedSet<Element: Hashable> {
     
     mutating func union(with otherSet: CountedSet) {
         for element in otherSet {
-            increment(element, by: otherSet[element])
+            self.increment(element, by: otherSet[element])
         }
     }
     
@@ -71,7 +71,7 @@ struct CountedSet<Element: Hashable> {
     
     mutating func subtract(_ otherSet: CountedSet) {
         for element in otherSet {
-            decrement(element, by: otherSet[element])
+            self.decrement(element, by: otherSet[element])
         }
     }
     
@@ -84,10 +84,8 @@ struct CountedSet<Element: Hashable> {
     }
     
     func isDisjoint(_ otherSet: CountedSet) -> Bool {
-        for element in otherSet {
-            if contains(element) {
-                return false
-            }
+        for element in otherSet  {
+            if self.contains(element) { return false }
         }
         return true
     }
