@@ -2,7 +2,7 @@ import UIKit
 
 struct CountedSet<Element: Hashable> {
     
-    private(set) var elementsDictionary: [Element: Int] = [:]
+    private var elementsDictionary: [Element: Int] = [:]
     
     // MARK: Count Related Properties
     
@@ -11,11 +11,7 @@ struct CountedSet<Element: Hashable> {
     }
     
     var isEmpty: Bool {
-        if elementsDictionary.isEmpty {
-            return true
-        } else {
-            return false
-        }
+        elementsDictionary.isEmpty
     }
     
     // MARK: Insert and Remove Methods
