@@ -16,4 +16,10 @@ extension CountedSet {
             storage[element] = count - 1
         }
     }
+    
+    subscript(member: Element) -> Int {
+        return storage[member] ?? 0
+    }
+    
+    
 }
