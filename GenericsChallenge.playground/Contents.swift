@@ -21,5 +21,10 @@ extension CountedSet {
         return storage[member] ?? 0
     }
     
-    
+    var count: Int? {
+        if storage.count == 0 {
+            return nil
+        }
+        return storage.count
+    }
 }
