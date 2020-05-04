@@ -10,9 +10,9 @@ struct CountedSet<Element> : ExpressibleByArrayLiteral where Element: Hashable  
             }
     }
     
-    mutating func insert(_ element: Element) -> Int {
+    mutating func insert(_ element: Element, _ count: Int = 1) -> Int {
       if dictionary.keys.contains(element) {
-        dictionary[element]! += 1
+        dictionary[element]! += count
         return dictionary[element]!
       } else {
         dictionary[element] = 1
@@ -20,10 +20,10 @@ struct CountedSet<Element> : ExpressibleByArrayLiteral where Element: Hashable  
       }
     }
     
-    mutating func remove(_ element: Element) -> Int {
+    mutating func remove(_ element: Element, _ count: Int = 1) -> Int {
         if dictionary.keys.contains(element) {
-          dictionary[element]! -= 1
-            if dictionary[element]! == 0 {
+          dictionary[element]! -= count
+            if dictionary[element]! <= 0 {
                 dictionary.removeValue(forKey: element)
                 return 0
             } else {
@@ -40,6 +40,31 @@ struct CountedSet<Element> : ExpressibleByArrayLiteral where Element: Hashable  
             return true
         }
         return false
+    }
+    
+    mutating func subtract(_ elements: CountedSet) {
+        for (thing, count) in elements.dictionary {
+            
+            remove(thing, count)
+        }
+    }
+    
+    mutating func union(_ elements: CountedSet) {
+        for (thing, count) in elements.dictionary {
+            
+            insert(thing, count)
+        }
+    }
+    
+    func unioned(_ elements: CountedSet) -> CountedSet {
+        var theSet: CountedSet = elements
+        
+        for (thing, count) in dictionary {
+            
+            theSet.insert(thing, count)
+        }
+        
+        return theSet
     }
     
     subscript(_ element: Element) -> Int {
@@ -64,7 +89,7 @@ myCountedSet.remove(.iron) // 3
 myCountedSet.remove(.dwarvish) // 0
 myCountedSet.remove(.magic) // 0
 
-var bCountedSet = CountedSet<Array<String>>()
-var newSet: CountedSet<String> = ["Peter", "Paul", "Mary"]
+var cCountedSet = myCountedSet
+myCountedSet.union(cCountedSet)
 
 
