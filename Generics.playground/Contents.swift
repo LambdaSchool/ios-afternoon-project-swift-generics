@@ -1,29 +1,27 @@
 import UIKit
 
 //CountedSet Holds a dictionary with ways to modify it
-struct CountedSet <Element: Hashable, Sequence> {
+struct CountedSet <Element: Hashable> {
     
     //Key - Member, Value - Members Count
-    private(set) var dictionary: [Element: Int]
+    private(set) var dictionary = [Element: Int]()
+    var count: Int? {
+        if dictionary.isEmpty {
+            return 0
+        } else {
+            return dictionary.count
+        }
+    }
     
     //Inserting into dictionary
-    mutating func insert(key: Element, value: Int) {
-        dictionary[key] = value
+    mutating func insert(element: Element) {
+        //dictionary[key] = value
+        dictionary[element] = (dictionary[element] ?? 0) + 1
     }
     
     //Removing From dictionary
-    mutating func remove(key: Element) {
-        dictionary[key] = nil
-    }
-    
-    //Number of elements in the dictionary
-    func count() -> Int {
-        var amount: Int = 0
-        
-        for i in dictionary {
-            amount += 1
-        }
-        return amount
+    mutating func remove(element: Element) {
+        dictionary[element] = nil
     }
     
     //Allows us to call countedSet directly
@@ -44,9 +42,9 @@ countedSet.dictionary
 
 
 //MARK: - Method Calls
-countedSet.remove(key: "Bill")
-countedSet.insert(key: "Orion", value: 5)
-countedSet.count()
+//countedSet.remove(element: "Bill")
+countedSet.insert(element: "Orion")
+countedSet.count
 
 //Subscript Call
 countedSet["Cam"]
@@ -54,16 +52,30 @@ countedSet["Orion"]
 
 
 
-//MARK: - Extension
-/*extension CountedSet: ExpressibleByArrayLiteral {
-    init(arrayLiteral: Element) {
-        self.init()
-        for element in arrayLiteral {
-            self.insert(key: element, value: 1)
+//MARK: - Conformance to ExpressibleByArrayLiteral
+extension CountedSet: ExpressibleByArrayLiteral {
+    
+    typealias ArrayLiteralElement = Element
+    
+    init(arrayLiteral elements: Element...) {
+        for element in elements {
+            dictionary[element] = (dictionary[element] ?? 0) + 1
         }
     }
-}*/
+}
 
 
+enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
+var aCountedSet = CountedSet<Arrow>()
+aCountedSet[.iron] // 0
+
+var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron]
+myCountedSet[.iron] // 4
+
+myCountedSet.dictionary
+myCountedSet.remove(element: .iron) // 3
+myCountedSet.remove(element: .dwarvish) // 0
+myCountedSet.remove(element: .magic) // 0
+myCountedSet.count
 
 
