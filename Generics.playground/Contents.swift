@@ -35,6 +35,13 @@ struct CountedSet<Element> : ExpressibleByArrayLiteral where Element: Hashable  
         }
     }
     
+    func contains(_ element: Element) -> Bool {
+        if dictionary.keys.contains(element) {
+            return true
+        }
+        return false
+    }
+    
     subscript(_ element: Element) -> Int {
     
         if dictionary.keys.contains(element) {
@@ -56,4 +63,8 @@ myCountedSet[.iron] // 4
 myCountedSet.remove(.iron) // 3
 myCountedSet.remove(.dwarvish) // 0
 myCountedSet.remove(.magic) // 0
+
+var bCountedSet = CountedSet<Array<String>>()
+var newSet: CountedSet<String> = ["Peter", "Paul", "Mary"]
+
 
