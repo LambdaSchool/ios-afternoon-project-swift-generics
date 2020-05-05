@@ -18,6 +18,7 @@ struct CountedSet<Element: Hashable> {
                 dictionary[element] = count - 1
             }
         }
+    }
 
     func count (_ member: Element) -> Int {
             return dictionary[member] ?? 0
@@ -25,7 +26,7 @@ struct CountedSet<Element: Hashable> {
         func isEmpty(_ member: Element) -> Bool {
             return count(member) == 0
         }
-    }
+
 
     subscript(_ member: Element) -> Int {
         if let result = dictionary[member] {
@@ -51,7 +52,10 @@ var aCountedSet = CountedSet<Arrow>()
 aCountedSet[.iron] // 0
 
 var myCountedSet:CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron]
-myCountedSet[.iron] // 4
+myCountedSet[.iron]// 4
+myCountedSet.count(.iron)
+myCountedSet.insert(.wooden)
+myCountedSet[.wooden]
 myCountedSet.remove(.iron) // 3
 myCountedSet.remove(.dwarvish) // 0
 myCountedSet.remove(.magic) // 0
