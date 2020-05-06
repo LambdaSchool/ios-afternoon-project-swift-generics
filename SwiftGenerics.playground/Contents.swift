@@ -4,6 +4,17 @@ import UIKit
 struct CountedSet<Element: Hashable> {
     private(set) var dict: [Element: Int] = [:]
     
+    subscript(_ key: Element) -> Int {
+        set {
+            dict[key] = newValue
+        }
+        get {
+            if let count = dict[key] {
+                return count
+            }
+            return 0
+        }
+    }
     mutating func insert(_ element: Element) {
         if let count = dict[element] {
             dict[element] = count + 1
