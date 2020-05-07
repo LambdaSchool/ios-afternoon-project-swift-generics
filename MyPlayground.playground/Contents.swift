@@ -21,17 +21,33 @@ struct CountedSet<Element: Hashable> {
     }
     
     subscript(_ member: Element) -> Int {
-            return dictionary[member] ?? 0
+        return dictionary[member] ?? 0
     }
-    
     
 }
 
+extension CountedSet: ExpressibleByArrayLiteral {
+    init(arrayLiteral elements: Element...) {
+        self.init()
+        for element in elements {
+            self.dictionary[element] = (dictionary[element] ?? 0) + 1
+        }
+    }
+}
+
 enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
-//var aCountedSet = CountedSet<Arrow>()
-//aCountedSet[.iron] // 0
-//var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron]
-//myCountedSet[.iron] // 4
-//myCountedSet.remove(.iron) // 3
-//myCountedSet.remove(.dwarvish) // 0
-//myCountedSet.remove(.magic) // 0
+var aCountedSet = CountedSet<Arrow>()
+aCountedSet[.iron] // 0
+var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron]
+myCountedSet[.iron] // 4
+myCountedSet.remove(.iron) // 3
+myCountedSet.remove(.dwarvish) // 0
+myCountedSet.remove(.magic) // 0
+
+myCountedSet.insert(.iron)
+//struct Animal {
+//    var numberOfLegs: Int
+//}
+//
+//let animals: [Animal] = [Animal(numberOfLegs: 1), Animal(numberOfLegs: 5)]
+//print(animals)
