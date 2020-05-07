@@ -1,7 +1,7 @@
 import Foundation
 
 struct CountedSet<T:Hashable> {
-    private var innerDict: [T:Int] = [:]
+    private var innerDict = [T:Int]()
     
     var count: Int {
         return innerDict.count
@@ -22,6 +22,15 @@ struct CountedSet<T:Hashable> {
     
     subscript(_ member: T) -> Int {
         return innerDict[member] ?? 0
+    }
+    
+    func contains(_ ele: T) -> Bool {
+        for (key, _) in innerDict {
+            if(key == ele) {
+                return true
+            }
+        }
+        return false
     }
 }
 
@@ -69,4 +78,8 @@ var equatableSet2: CountedSet<String> = ["Good Morning", "Good Afternoon", "Good
 print("equatableSet1 == equatableSet2 = \(equatableSet1 == equatableSet2)")
 
 var nonEquatableSet: CountedSet<String> = ["Hello", "Goodbye"]
-print("equatableSet1 == nonEquatableSet = \(equatableSet1 == nonEquatableSet)")
+print("equatableSet1 == nonEquatableSet = \(equatableSet1 == nonEquatableSet)\n")
+
+// Contains method stretch goal test
+print("equatableSet1.contains(\"Good Morning\") = \(equatableSet1.contains("Good Morning"))")
+print("equatableSet1.contains(\"ABC\") = \(equatableSet1.contains("ABC"))")
