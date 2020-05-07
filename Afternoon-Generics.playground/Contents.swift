@@ -35,7 +35,7 @@ struct CountedSet <T: Hashable>  {
         if var _ = dictionary[element] {
             dictionary[element]! -= 1
         } else {
-            dictionary[element] = 1
+            dictionary[element] 
         }
         return dictionary[element] ?? 0
     }
