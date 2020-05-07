@@ -1,6 +1,13 @@
 import Foundation
 
-struct CountedSet<Element: Hashable> {
+struct CountedSet<Element: Hashable>: ExpressibleByArrayLiteral {
+    
+    init(arrayLiteral: Element...) {
+        self.init()
+        for element in arrayLiteral {
+            self.insert(obj: element)
+        }
+    }
     
     var dictionary: [Element : Int] = [:]
     
@@ -38,26 +45,26 @@ struct CountedSet<Element: Hashable> {
     
 }
 
-var mySet = CountedSet<String>()
+//var mySet = CountedSet<String>()
+//
+//mySet.insert(obj: "haha")
+//mySet.insert(obj: "haha")
+//mySet.insert(obj: "haha")
+//mySet.insert(obj: "Wha What")
+//mySet.insert(obj: "Wha What")
+//mySet.insert(obj: "Hey")
+//mySet.insert(obj: "Who")
+//
+//print(mySet.dictionary)
+//print(mySet.dictionary["haha"])
+//print(mySet.count())
 
-mySet.insert(obj: "haha")
-mySet.insert(obj: "haha")
-mySet.insert(obj: "haha")
-mySet.insert(obj: "Wha What")
-mySet.insert(obj: "Wha What")
-mySet.insert(obj: "Hey")
-mySet.insert(obj: "Who")
-
-print(mySet.dictionary)
-print(mySet.dictionary["haha"])
-print(mySet.count())
-
-//enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
-//var aCountedSet = CountedSet<Arrow>()
-//aCountedSet[.iron] // 0
-//var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron]
-//myCountedSet[.iron] // 4
-//myCountedSet.remove(obj: .iron) // 3
-//myCountedSet.remove(obj: .dwarvish) // 0
-//myCountedSet.remove(obj: .magic) // 0
+enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
+var aCountedSet = CountedSet<Arrow>()
+aCountedSet[.iron] // 0
+var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron]
+myCountedSet[.iron] // 4
+myCountedSet.remove(obj: .iron) // 3
+myCountedSet.remove(obj: .dwarvish) // 0
+myCountedSet.remove(obj: .magic) // 0
 
