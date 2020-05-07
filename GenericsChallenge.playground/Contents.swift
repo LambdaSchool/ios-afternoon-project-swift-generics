@@ -36,6 +36,10 @@ struct CountedSet<Element: Hashable> {
     subscript(_ member: Element) -> Int {
         return storageDictionary[member] ?? 0
     }
+    
+    func contains(_ element: Element) -> Bool {
+        return (storageDictionary[element] != nil) ? true : false
+    }
 }
 
 extension CountedSet: ExpressibleByArrayLiteral {
