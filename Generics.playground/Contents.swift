@@ -3,6 +3,14 @@ import Foundation
 struct CountedSet<T:Hashable> {
     private var innerDict: [T:Int] = [:]
     
+    var count: Int {
+        return innerDict.count
+    }
+    
+    var isEmpty: Bool {
+        return innerDict.count == 0
+    }
+    
     mutating func insert(_ ele: T) {
         guard innerDict[ele] != nil else {
             // If element does not exist, add it to dictionary
