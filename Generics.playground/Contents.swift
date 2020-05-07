@@ -36,14 +36,39 @@ struct CountedSet<T:Hashable> {
     
     // Return count of element in dictionary if it exists
     subscript(_ member: T) -> Int {
-        guard innerDict[member] != nil else { return 0 }
-        return innerDict[member]!
+        return innerDict[member] ?? 0
     }
 }
 
-enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
-var aCountedSet = CountedSet<Arrow>()
-aCountedSet.insert(.magic)
-print(aCountedSet[.magic])
-//var myCountedSet: CountedSet<Arrow> = [.iron, .wooden, .magic, .magic]
+extension CountedSet: ExpressibleByArrayLiteral {
+    init(arrayLiteral: T...) {
+        self.init()
+        for T in arrayLiteral {
+            self.insert(T) // insert instead of append
+        }
+    }
+}
 
+// Test
+enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
+
+var aCountedSet = CountedSet<Arrow>()
+aCountedSet[.iron] // 0
+print(aCountedSet[.iron])
+print("aCountedSet.isEmpty = \(aCountedSet.isEmpty)")
+
+var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron]
+print(myCountedSet[.iron]) // 4
+
+myCountedSet.remove(.iron)
+print(myCountedSet[.iron]) // 3
+
+myCountedSet.remove(.dwarvish)
+print(myCountedSet[.dwarvish]) // 0
+
+myCountedSet.remove(.magic)
+print(myCountedSet[.magic]) // 0
+
+dump(myCountedSet)
+print("\nUnique items in set: \(myCountedSet.count)")
+print("isEmpty = \(myCountedSet.isEmpty)")
