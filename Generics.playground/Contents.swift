@@ -12,29 +12,14 @@ struct CountedSet<T:Hashable> {
     }
     
     mutating func insert(_ ele: T) {
-        guard innerDict[ele] != nil else {
-            // If element does not exist, add it to dictionary
-            innerDict[ele] = 1
-            return
-        }
-        
-        // element does exist, increment count
-        innerDict[ele]! += 1
+        innerDict[ele] = (innerDict[ele] ?? 0)+1
     }
     
     mutating func remove(_ ele: T) {
-        guard innerDict[ele] != nil else { return }
-        
-        // Decrement element count
-        innerDict[ele]! -= 1
-        
-        // Remove from dictionary if less than 1
-        if(innerDict[ele]! <= 0) {
-            innerDict[ele] = nil
-        }
+        innerDict[ele] = (innerDict[ele] ?? 0)-1
+        if(innerDict[ele]! == -1) { innerDict[ele] = nil }
     }
     
-    // Return count of element in dictionary if it exists
     subscript(_ member: T) -> Int {
         return innerDict[member] ?? 0
     }
@@ -44,18 +29,16 @@ extension CountedSet: ExpressibleByArrayLiteral {
     init(arrayLiteral: T...) {
         self.init()
         for T in arrayLiteral {
-            self.insert(T) // insert instead of append
+            self.insert(T)
         }
     }
 }
 
 extension CountedSet: Equatable {
-    static func == (lhs: CountedSet, rhs: CountedSet) -> Bool {
-        return lhs.innerDict == rhs.innerDict
-    }
+    static func == (lhs: CountedSet, rhs: CountedSet) -> Bool { return lhs.innerDict == rhs.innerDict }
 }
 
-// Test
+// Tests
 enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
 
 var aCountedSet = CountedSet<Arrow>()
