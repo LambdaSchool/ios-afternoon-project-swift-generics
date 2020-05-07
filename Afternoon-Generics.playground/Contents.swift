@@ -11,22 +11,43 @@ struct CountedSet <T: Hashable>  {
         return count == 0
     }
     
-    mutating func insert(_ element: T) -> Int {
-        dictionary.append(element)
+    mutating func insert(_ element: T) {
+        if let index = dictionary.index(forKey: element) {
+            if let elementCount = dictionary[element] {
+                elementCount + 1
+            } else {
+                dictionary[element] = 1
+            }
+        }
     }
     
-    mutating func remove() {
-        dictionary.removeLast()!
+    mutating func remove(_ element: T) -> Int {
+        if let index = dictionary.index(forKey: element) {
+            if let elementCount = dictionary[element] {
+                elementCount - 1
+            } else {
+                dictionary[element] = 1
+            }
+        }
+        return dictionary[element] ?? 0
     }
     
-    subscript(_ member: T) -> Int {
-        
+    subscript(_ element: T) -> Int {
+        if let index = dictionary.index(forKey: element) {
+            return dictionary[index].value
+        } else {
+            return 0
+            
+        }
     }
 }
 
 extension CountedSet: ExpressibleByArrayLiteral {
-
-    init(arrayLiteral:T...) {
-           self.init()
+    
+    init(arrayLiteral element: T...) {
+        self.init()
+        for element in element {
+            self.insert(element)
+        }
     }
 }
