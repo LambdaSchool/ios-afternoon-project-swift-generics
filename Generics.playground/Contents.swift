@@ -49,6 +49,12 @@ extension CountedSet: ExpressibleByArrayLiteral {
     }
 }
 
+extension CountedSet: Equatable {
+    static func == (lhs: CountedSet, rhs: CountedSet) -> Bool {
+        return lhs.innerDict == rhs.innerDict
+    }
+}
+
 // Test
 enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
 
@@ -69,6 +75,15 @@ print(myCountedSet[.dwarvish]) // 0
 myCountedSet.remove(.magic)
 print(myCountedSet[.magic]) // 0
 
+print("\n")
 dump(myCountedSet)
 print("\nUnique items in set: \(myCountedSet.count)")
-print("isEmpty = \(myCountedSet.isEmpty)")
+print("isEmpty = \(myCountedSet.isEmpty)\n")
+
+// Equatable Stretch Goal Test
+var equatableSet1: CountedSet<String> = ["Good Morning", "Good Afternoon", "Good Night"]
+var equatableSet2: CountedSet<String> = ["Good Morning", "Good Afternoon", "Good Night"]
+print("equatableSet1 == equatableSet2 = \(equatableSet1 == equatableSet2)")
+
+var nonEquatableSet: CountedSet<String> = ["Hello", "Goodbye"]
+print("equatableSet1 == nonEquatableSet = \(equatableSet1 == nonEquatableSet)")
