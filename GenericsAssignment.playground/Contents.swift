@@ -13,7 +13,7 @@ struct CountedSet<Element: Hashable> {
             return dictionary.count
         }
     }
-    
+
     // MARK: - Methods
 
     // Insert a new element into a dictionary
@@ -33,3 +33,39 @@ struct CountedSet<Element: Hashable> {
 
     }
 }
+
+// MARK: - Extension
+extension CountedSet: ExpressibleByArrayLiteral {
+    init(arrayLiteral elements: Element...) {
+        self.init()
+        for element in elements {
+            self.dictionary[element]
+        }
+    }
+}
+
+
+// MARK: - Creating Property by calling CountedSet
+var countedSet = CountedSet(dictionary: ["Harmony" : 1, "Carl" : 2, "Boo" : 3])
+countedSet.dictionary
+
+// MARK: - Calling Methods
+
+countedSet.remove(element: "Boo")
+countedSet.insert(element: "Shelley")
+countedSet.count
+
+// MARK: - Subscript Calls
+countedSet["Harmony"]
+countedSet["Shelley"]
+
+enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
+var aCountedSet = CountedSet<Arrow>()
+aCountedSet[.iron] // 0
+var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron]
+myCountedSet[.iron] // 4
+myCountedSet.dictionary
+myCountedSet.remove(element: .iron) // 3
+myCountedSet.remove(element: .dwarvish) // 0
+myCountedSet.remove(element: .magic) // 0
+
