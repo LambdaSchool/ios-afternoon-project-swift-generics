@@ -3,7 +3,6 @@ import UIKit
 
 struct CountedSet<Element: Hashable> {
     
-    var stored = [Element]()
     private(set) var dictionary = [Element: Int]()
       
     
@@ -15,6 +14,7 @@ struct CountedSet<Element: Hashable> {
             dictionary[key] = 1
         }
     }
+    
     
     mutating func remove(key: Element) {
         if var value = dictionary[key], value > 1 {
@@ -32,16 +32,17 @@ struct CountedSet<Element: Hashable> {
         }
         return count
     }
+
     
     func isEmpty() -> Bool {
-        
+
         return self.count() == 0 ? true : false
     }
     
     subscript(_ member: Element) -> Int {
         get {
             guard let value = dictionary[member] else { return 0 }
-            print("This is the value: \(value)")
+            print("The value is: \(value)")
                 return value
         }
     }
@@ -49,7 +50,9 @@ struct CountedSet<Element: Hashable> {
 
 extension CountedSet: ExpressibleByArrayLiteral {
     init(arrayLiteral elements: Element...) {
-        stored = elements
+        for element in elements {
+            insert(key: element)
+        }
     }
 }
 
@@ -63,10 +66,36 @@ enum Arrow {
 
 var aCountedSet = CountedSet<Arrow>()
 print(aCountedSet)
+aCountedSet.count()
 aCountedSet[.iron] // 0
+aCountedSet.insert(key: .iron)
+aCountedSet.insert(key: .elven)
+aCountedSet.insert(key: .elven)
+aCountedSet.insert(key: .dwarvish)
+aCountedSet.insert(key: .magic)
+aCountedSet.insert(key: .magic)
+aCountedSet.insert(key: .magic)
+aCountedSet[.elven]
+aCountedSet[.magic]
+print(aCountedSet.dictionary)
+aCountedSet[.iron]
+aCountedSet.remove(key: .iron)
+aCountedSet[.iron]
+
+
+aCountedSet.count()
+
 var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron]
-print(myCountedSet)
+myCountedSet.count()
 myCountedSet[.iron] // 4
 myCountedSet.remove(key: .iron) // 3
+myCountedSet[.iron]
 myCountedSet.remove(key: .dwarvish) // 0
+myCountedSet[.dwarvish]
 myCountedSet.remove(key: .magic) // 0
+myCountedSet[.magic]
+
+var animals: CountedSet = ["cat", "cat", "dog", "bird", "bunny", "bunny", "bunny"]
+print(animals)
+animals.count()
+
