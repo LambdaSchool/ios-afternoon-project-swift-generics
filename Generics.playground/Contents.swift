@@ -2,7 +2,8 @@ import UIKit
 
 
 struct CountedSet<Element: Hashable> {
-    var elements = [Element]()
+    
+    var stored = [Element]()
     private(set) var dictionary = [Element: Int]()
       
     
@@ -24,7 +25,6 @@ struct CountedSet<Element: Hashable> {
         }
     }
     
-    
     func count() -> Int {
         var count = 0
         for _ in dictionary.keys {
@@ -40,12 +40,16 @@ struct CountedSet<Element: Hashable> {
     
     subscript(_ member: Element) -> Int {
         get {
-            if let value = dictionary[member] {
+            guard let value = dictionary[member] else { return 0 }
+            print("This is the value: \(value)")
                 return value
-            } else {
-                return 0
-            }
         }
+    }
+}
+
+extension CountedSet: ExpressibleByArrayLiteral {
+    init(arrayLiteral elements: Element...) {
+        stored = elements
     }
 }
 
@@ -58,18 +62,11 @@ enum Arrow {
 }
 
 var aCountedSet = CountedSet<Arrow>()
-//aCountedSet[.iron]
-
 print(aCountedSet)
-
-
-//var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron]
-
-extension CountedSet: ExpressibleByArrayLiteral {
-    init(arrayLiteral: Element...) {
-        self.init()
-        for element in arrayLiteral {
-            self.append(element)
-        }
-    }
-}
+aCountedSet[.iron] // 0
+var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron]
+print(myCountedSet)
+myCountedSet[.iron] // 4
+myCountedSet.remove(key: .iron) // 3
+myCountedSet.remove(key: .dwarvish) // 0
+myCountedSet.remove(key: .magic) // 0
