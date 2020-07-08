@@ -52,3 +52,12 @@ var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .ir
 myCountedSet[.iron] // 4
 myCountedSet.remove(element: .iron)
 myCountedSet[.iron] // 3
+myCountedSet.remove(element: .dwarvish)
+myCountedSet[.dwarvish] // 0
+myCountedSet.remove(element: .magic)
+myCountedSet[.magic] // 0
+myCountedSet.insert(element: .elven)
+myCountedSet[.elven] // 1
+print(myCountedSet)
+myCountedSet.count
+myCountedSet.isEmpty
