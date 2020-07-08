@@ -12,7 +12,11 @@ struct CountedSet<Element: Hashable>{
     
     //MARK: - Functions
     mutating func insert(element: Element){
-    
+        if let elementCount = myDictionary[element]{
+            myDictionary[element] = elementCount + 1
+        } else {
+            myDictionary[element] = 1
+        }
     }
     
     mutating func remove(element: Element){
@@ -24,6 +28,7 @@ struct CountedSet<Element: Hashable>{
     }
 }
 
+//MARK: - Extenstion
 extension CountedSet: ExpressibleByArrayLiteral {
     init(arrayLiteral: Element...) {
         self.init()
@@ -34,4 +39,9 @@ extension CountedSet: ExpressibleByArrayLiteral {
 }
 
 
-
+//MARK: - Tests
+enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
+var aCountedSet = CountedSet<Arrow>()
+aCountedSet[.iron] // 0
+var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron]
+myCountedSet[.iron] // 4
