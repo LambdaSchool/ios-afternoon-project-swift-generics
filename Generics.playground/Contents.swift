@@ -3,7 +3,7 @@ import Foundation
 
 struct CountedSet: Hashable {
     
-    var set: [String : Int] = [:]
+    private (set) var set: [String : Int] = [:]
     
     mutating func insert(entry: String, count: Int) {
         set[entry] = count
