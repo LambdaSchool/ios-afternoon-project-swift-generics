@@ -20,7 +20,12 @@ struct CountedSet<Element: Hashable>{
     }
     
     mutating func remove(element: Element){
-        
+        guard let elementCount = myDictionary[element] else { return }
+        if elementCount > 1{
+           myDictionary[element] = elementCount - 1
+        } else {
+            myDictionary[element] = nil
+        }
     }
     
     subscript(_ member: Element) -> Int{
@@ -45,3 +50,5 @@ var aCountedSet = CountedSet<Arrow>()
 aCountedSet[.iron] // 0
 var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron]
 myCountedSet[.iron] // 4
+myCountedSet.remove(element: .iron)
+myCountedSet[.iron] // 3
