@@ -16,15 +16,10 @@ struct CountedSet<Element : Hashable> {
     }
     
     mutating func countEntries() -> Int {
-        var count = 0
         
         guard !inventory.isEmpty else { return 0 }
         
-        for _ in inventory {
-            count += 1
-        }
-        
-        return count
+        return inventory.count
     }
     
 }
