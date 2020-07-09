@@ -6,27 +6,20 @@ struct CountedSet<Value: Hashable> {
     var dictionary: [Value: Int] = [:]
     
     mutating func insert(valueForDictionary: Value){
-        dictionary[valueForDictionary]! += 1
+        dictionary[valueForDictionary] = (dictionary[valueForDictionary] ?? 0) + 1
         
     }
     
     mutating func remove(valueForDictionary: Value){
-        dictionary[valueForDictionary]! -= 1
+        let count = dictionary[valueForDictionary] ?? 0
+        
+        if count > 0 {
+            dictionary[valueForDictionary] = count - 1
+        }
     }
     
     subscript(_ member: Value)-> Int {
-        var count = 0
-        for (keys, values) in dictionary {
-            if dictionary[keys] == values {
-                count = count + 1
-                
-            } else {
-                return count
-            }
-        }
-        
-        return count
-        
+        return dictionary[member] ?? 0
     }
 
 }
