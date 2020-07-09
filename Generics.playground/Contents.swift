@@ -46,6 +46,8 @@ struct CountedSet <Element: Hashable> {
         guard let int = setDict[element] else { return 0}
         return int
     }
+
+
 }
 
 extension CountedSet: ExpressibleByArrayLiteral {
@@ -79,6 +81,17 @@ myIntSet[2]
 var myOtherIntSet: CountedSet<Int> = [1]
 myOtherIntSet.remove(1)
 myOtherIntSet.countValue
+
+var stringSet: CountedSet<String> = ["first", "second", "third", "fourth", "second"]
+stringSet.contains("first")
+stringSet.insert("fifth")
+stringSet.countValue
+stringSet["second"]
+
+
+
+
+
 
 
 
