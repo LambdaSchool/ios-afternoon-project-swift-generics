@@ -2,6 +2,7 @@ import UIKit
 import Foundation
 
 struct CountedSet<Element : Hashable> {
+
     private (set) var inventory: [Element : Int] = [:]
     
     mutating func insert(_ entry: Element) {
@@ -43,7 +44,6 @@ extension CountedSet: ExpressibleByArrayLiteral {
             self.insert(element)
         }
     }
-    
 }
 
 enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
