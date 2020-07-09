@@ -1,24 +1,25 @@
 import UIKit
 import Foundation
 
-struct CountedSet: Hashable {
+struct CountedSet<Element : Hashable> {
+    private (set) var inventory: [Element : Int] = [:]
     
-    private (set) var set: [String : Int] = [:]
-    
-    mutating func insert(entry: String, count: Int) {
-        set[entry] = count
+    mutating func insert(_ entry: Element) {
+        inventory[entry] = (inventory[entry] ?? 0) + 1
     }
     
-    mutating func remove(entry: String) {
-        set.removeValue(forKey: entry)
+    mutating func remove(_ entry: Element) {
+        guard let amount = inventory[entry] else { return }
+        
+        inventory[entry] = amount - 1
     }
     
     mutating func countEntries() -> Int {
         var count = 0
         
-        guard !set.isEmpty else { return 0 }
+        guard !inventory.isEmpty else { return 0 }
         
-        for _ in set {
+        for _ in inventory {
             count += 1
         }
         
@@ -27,19 +28,31 @@ struct CountedSet: Hashable {
     
 }
 
-var myCountedSet = CountedSet()
+extension CountedSet {
+    subscript(_ member: Element) -> Int {
+        return inventory[member] ?? 0
+    }
+}
 
-myCountedSet.insert(entry: "Hello", count: 3)
-myCountedSet.insert(entry: "World", count: 9)
+extension CountedSet: ExpressibleByArrayLiteral {
+    typealias ArrayLiteralElement = Element
+    
+    init(arrayLiteral: Element...) {
+        self.init()
+        for element in arrayLiteral {
+            self.insert(element)
+        }
+    }
+    
+}
 
-print(myCountedSet.set)
-print(myCountedSet.countEntries())
+enum Arrow { case iron, wooden, elven, dwarvish, magic, silver }
 
-myCountedSet.remove(entry: "World")
-
-print(myCountedSet.set)
-print(myCountedSet.countEntries())
-
-myCountedSet.remove(entry: "Hello")
-
-print(myCountedSet.countEntries())
+var aCountedSet = CountedSet<Arrow>()
+aCountedSet[.iron]
+var myCountedSet: CountedSet<Arrow> = [.iron, .magic, .iron, .silver, .iron, .iron]
+print(myCountedSet[.iron])
+myCountedSet.remove(.iron)
+print(myCountedSet[.iron])
+myCountedSet.remove(.dwarvish)
+myCountedSet.remove(.magic)
