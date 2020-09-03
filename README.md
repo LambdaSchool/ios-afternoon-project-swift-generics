@@ -9,7 +9,7 @@ Create a new playground or project to develop and test your type. It may be easi
 ## Goals
 
 * Add insertion and removal (`insert` and `remove`) of one element at a time.
-* Support subscripting to look up current values (by implementing `subscript(_ member: Element) -> Int`). Return `0` for any value that is not found.
+* Support subscripting to look up current values (by implementing `subscript(_ member: Element) -> Int`). 
 * Add `count`, returning the number of unique elements in the counted set and `isEmpty` for when `count` is zero.
 
 ## Conform to `ExpressibleByArrayLiteral`
