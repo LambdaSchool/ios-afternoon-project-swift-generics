@@ -41,10 +41,13 @@ struct CountedSet<Element: Hashable> {
         }
     }
     
-    func count() -> Int {
+    var count: Int {
         return memberDict.count
     }
-    
+    var isEmpty: Bool {
+        return memberDict.isEmpty
+    }
+
 }
 
 var animals = CountedSet(memberDict: ["dog": 1])
@@ -54,7 +57,7 @@ animals.insert("dog")
 animals.insert("cat")
 animals.remove("rabbit")
 animals.remove("dog")
-animals.count()
+animals.count
 animals["dog"]
 animals["cat"]
 animals["rabbit"]
@@ -102,10 +105,9 @@ jacobsonInstruments.insert("Saxophone")
 jacobsonInstruments.insert("Saxophone")
 jacobsonInstruments.insert("Saxophone")
 jacobsonInstruments.insert("Clarinet")
-jacobsonInstruments.count()
+jacobsonInstruments.count
 jacobsonInstruments["Saxophone"]
 
 var livestock = ["goat": 4, "pig": 2, "chicken": 20]
 var barn = CountedSet(livestock)
 barn["pig"]
-
