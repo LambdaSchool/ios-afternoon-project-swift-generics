@@ -13,7 +13,8 @@ struct CountedSet<Element: Hashable>: ExpressibleByArrayLiteral {
     }
     
     mutating func insert(_ element: Element) {
-        dictionary[element] = (dictionary[element] ?? 0) + 1
+        dictionary[element, default: 0] += 1
+//        dictionary[element] = (dictionary[element] ?? 0) + 1
     }
     
     mutating func remove(_ element: Element) -> Int{
@@ -27,7 +28,7 @@ struct CountedSet<Element: Hashable>: ExpressibleByArrayLiteral {
     }
     
     func count() -> Int {
-        if dictionary.isEmpty == false { return 0 } else {
+        if dictionary.isEmpty == true { return 0 } else {
             return dictionary.count
         }
     }
